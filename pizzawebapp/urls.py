@@ -20,5 +20,6 @@ from pizzas.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pizzas.urls')),
+    path('', include('orders.urls')),
     path('list', index, name='main'),
 ]

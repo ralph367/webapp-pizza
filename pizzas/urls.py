@@ -11,7 +11,7 @@ router.register(r'pizzas', viewsets.PizzasViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework_pizzas')),
     url(
         r'^api/v1/pizzas/(?P<pk>[0-9]+)$',
         views.get_delete_update_pizza,

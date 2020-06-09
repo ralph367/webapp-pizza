@@ -4,13 +4,15 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import PizzasSerializer
-
+from django.http import HttpRequest
 # Create your views here.
 
 
 def index(response):
-    pizzas = Pizzas.objects.all()
-    return render(response, "index.html", {'pizzas': pizzas})
+    fake_request = HttpRequest()
+    fake_request.method = 'GET'
+    pizzas = get_post_pizzas(fake_request)
+    return render(response, "index.html", {'pizzas': pizzas.data})
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
