@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="style.css">
-    <title>{% block title %}Pizza Delivery{% endblock %}</title>
+    <title>{% block title %}Pizza Delivery{% endblock title%}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/grid-reset.css'%}">
 </head>
 
 <body>
-    <div id="sidebar">
+    <div class="sidebar">
         {% block sidebar %}
+        Logo
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/">Orders</a></li>
         </ul>
+
         {% endblock %}
     </div>
 
-    <div id="content">
-        {% block content %}{% endblock %}
+    <div class="container">
+        <div class="header">
+            <h1>
+                {% block mainheader %}Main Header{% endblock mainheader%}
+            </h1>
+        </div>
+        {% block content %}{% endblock content%}
     </div>
+
+    {% block script %} {% endblock script%}
 </body>
+
 </html>
