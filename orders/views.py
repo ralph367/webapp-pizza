@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from rest_framework.views import APIView
 from .models import Orders
 
-class HomeView(TemplateView):
+class HomeView(APIView):
     template_name = 'orders.html'
 
     def get(self, request):
@@ -12,3 +12,6 @@ class HomeView(TemplateView):
     def post(self, request):
   
         return render(request, self.template_name, {})
+
+# def index(request):
+#     return render(request, "orders.html", {})
