@@ -6,6 +6,7 @@ class HomeView(APIView):
     template_name = 'orders.html'
 
     def get(self, request):
+        
         orders = Orders.objects.all()
         return render(request, self.template_name, {'orders': orders})
 

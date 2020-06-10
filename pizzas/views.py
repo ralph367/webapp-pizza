@@ -7,8 +7,10 @@ class HomeView(APIView):
     template_name = 'index.html'
 
     def get(self, request):
+        cart = request.session.get('cart', [])
+        request.session['cart'] = cart
         pizzas = Pizzas.objects.all()
-        return render(request, self.template_name, {'pizzas': pizzas})
+        return render(request, self.template_name, {'pizzas': pizzas, 'request': request})
 
     def post(self, request):
         return render(request, self.template_name, {})

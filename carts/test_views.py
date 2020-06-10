@@ -16,10 +16,10 @@ class GetAllCartsTest(TestCase):
     """ Testing to GET all carts API """
 
     def setUp(self):
-        Carts.objects.create(cart_price="1")
-        Carts.objects.create(cart_price="2")
-        Carts.objects.create(cart_price="3")
-        Carts.objects.create(cart_price="4")
+        Carts.objects.create(price="1")
+        Carts.objects.create(price="2")
+        Carts.objects.create(price="3")
+        Carts.objects.create(price="4")
 
     def test_get_all_carts(self):
         # get API response

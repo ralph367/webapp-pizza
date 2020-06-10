@@ -5,5 +5,5 @@ from .models import Carts
 
 
 class CartsViewSet(viewsets.ModelViewSet):
-    queryset = Carts.objects.all().order_by('cart_id')
+    queryset = Carts.objects.all().order_by('id')
     serializer_class = CartsSerializer

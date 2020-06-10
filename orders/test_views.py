@@ -16,10 +16,10 @@ class GetAllOrdersTest(TestCase):
     """ Testing to GET all orders API """
 
     def setUp(self):
-        Orders.objects.create(order_price="1")
-        Orders.objects.create(order_price="2")
-        Orders.objects.create(order_price="3")
-        Orders.objects.create(order_price="4")
+        Orders.objects.create(price="1")
+        Orders.objects.create(price="2")
+        Orders.objects.create(price="3")
+        Orders.objects.create(price="4")
 
     def test_get_all_orders(self):
         # get API response

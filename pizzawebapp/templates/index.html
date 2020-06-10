@@ -6,15 +6,15 @@
   {% for pizza in pizzas %}
   <div class="col-md-4">
     <div class="cardcol">
-    <div class="card">
-      <div class="cardboxheader cardheader">test</div>
-      <div class="cardbody">
-        {{ pizza.pizza_name }}
-        <input type="number" id="{{pizza.pizza_id}}" value="1" min="1">
-        <button onclick="addToCart('{{ pizza.pizza_id}}')" value="">asdasd</button>
+      <div class="card">
+        <div class="cardboxheader cardheader">test</div>
+        <div class="cardbody">
+          {{ pizza.name }}
+          <input type="number" id="{{pizza.id}}" value="1" min="1" onKeyDown="return false">
+          <button onclick="addToCart('{{ pizza.id}}')" value="">asdasd</button>
+        </div>
       </div>
     </div>
-  </div>
   </div>
   {% endfor %}
 </div>
@@ -25,10 +25,28 @@
 {% load static %}
 <script src="{% static 'js/jquery.js'%}"></script>
 <script>
-function addToCart(x){
-  var amount = document.getElementById(x).value;
-  alert(amount)
-}
+   var csrftoken = '{{ csrf_token }}';
+  function addToCart(id) {
+    var amount = document.getElementById(id).value;
+    $.ajax({
+      type: 'POST',
+      url: "/update_session",
+      data: {'id': id, 'amount': amount},
+      context: this,
+      headers: { "X-CSRFToken": csrftoken },
+      success: function (data) {
+        
+
+        console.log(data)
+        document.getElementById("message").value = data;
+        
+      },
+      error: function (error) {
+        console.log(error)
+
+      }
+    });
+  }
 
 </script>
 {% endblock script %}
