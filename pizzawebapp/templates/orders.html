@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block mainheader %}Main Header{% endblock mainheader%}
+{% block content %}
+
+<div class="row">
+  {% for profile in orders %}
+  <div class="col-md-4">
+    <div class="cardcol">
+    <div class="card">
+      <div class="cardboxheader cardheader">test</div>
+      <div class="cardbody">
+        {{ profile.order_id }}
+        <button onclick="addToCart('{{ profile.order_id }}')" value="">asdasd</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'js/jquery.js'%}"></script>
+<script>
+function addToCart(x){
+  alert(x)
+}
+
+
+  // $(document).ready(function () {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: "/orders/",
+  //     dataType: "json",
+  //     success: function (res) {
+  //       console.log(res)
+  //     },
+  //     error: function (error) {
+  //       callbackErr(error, self)
+  //       console.log(res)
+  //     }
+  //   });
+  // });
+
+</script>
+{% endblock script %}

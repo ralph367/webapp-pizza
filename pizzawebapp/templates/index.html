@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block mainheader %}Main Header{% endblock mainheader%}
+{% block content %}
+
+<div class="row">
+  {% for pizza in pizzas %}
+  <div class="col-md-4">
+    <div class="cardcol">
+    <div class="card">
+      <div class="cardboxheader cardheader">test</div>
+      <div class="cardbody">
+        {{ pizza.pizza_name }}
+        <input type="number" id="{{pizza.pizza_id}}" value="1" min="1">
+        <button onclick="addToCart('{{ pizza.pizza_id}}')" value="">asdasd</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'js/jquery.js'%}"></script>
+<script>
+function addToCart(x){
+  var amount = document.getElementById(x).value;
+  alert(amount)
+}
+
+</script>
+{% endblock script %}
