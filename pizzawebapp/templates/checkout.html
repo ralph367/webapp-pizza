@@ -3,9 +3,30 @@
 {% block content %}
 
 <div class="row">
-  {% for cartlist in carts %}
-    {{cartlist}}
-  {% endfor %}
+  <div class="card">
+    <div class="cardboxheader cardheader">test</div>
+    <div class="cardbody">
+      {% for pizza in cart %}
+      <ul>
+        <li>{{pizza.name}}</li>
+        <li>Amount : <input type="number" id="checkout{{pizza.id}}" value="{{pizza.amount}}" min="1"
+            onKeyDown="return false" onchange="updateCheckoutCart('{{ pizza.id}}')"> </li>
+        <li>{{pizza.price}}</li>
+
+      </ul>
+      <hr>
+      {% endfor %}
+      <form action="/orders/" method="post">
+        {% csrf_token %}
+        Name : <input type="text" name="name" value="">
+        Address : <input type="text" name="location" value="">
+        Additional Info : <input type="text" name="addition_info" value="">
+        Phone number : <input type="text" name="phone" value="">
+        <button type="submit" value="">Buy</button>
+      </form>
+    </div>
+  </div>
+
 </div>
 
 {% endblock content %}
@@ -15,6 +36,23 @@
 <script src="{% static 'js/jquery.js'%}"></script>
 <script>
   var csrftoken = '{{ csrf_token }}';
+  function updateCheckoutCart(id) {
+    var amount = document.getElementById("checkout" + id).value;
+
+    $.ajax({
+      type: 'POST',
+      url: "/updatecartsession",
+      data: { 'id': id, 'amount': amount },
+      headers: { "X-CSRFToken": csrftoken },
+      success: function (data) {
+        console.log(data)
+        document.getElementById("message").value = data;
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    });
+  }
   function addToCart(id) {
     var amount = document.getElementById(id).value;
     $.ajax({

@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import Orders
+from django.http import HttpResponse
+from .serializers import OrdersSerializer
+from rest_framework.response import Response
+from rest_framework import status
 
 class HomeView(APIView):
     template_name = 'orders.html'
@@ -9,10 +13,8 @@ class HomeView(APIView):
         orders = Orders.objects.all()
         return render(request, self.template_name, {'orders': orders})
 
-    def post(self, request):
-  
-        return render(request, self.template_name, {})
 
 def CartCheckout(request):
     cart = request.session.get('cart', [])
-    return render(request, 'checkout.html', {'orders': cart})
+    return render(request, 'checkout.html', {'cart': cart})
+

@@ -13,5 +13,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework_orders')),
     path('orderlist', views.HomeView.as_view(), name='home'),
-    path('checkout', views.CartCheckout, name='cartcheckout')
+    path('checkout', views.CartCheckout, name='cartcheckout'),
 ]

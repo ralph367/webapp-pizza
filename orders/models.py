@@ -1,4 +1,5 @@
 from django.db import models
+import json
 
 # Create your models here.
 class Orders(models.Model):
@@ -8,7 +9,13 @@ class Orders(models.Model):
     phone = models.CharField(max_length=250, blank=True)
     addition_info = models.CharField(max_length=250, blank=True)
     person_name = models.CharField(max_length=250, blank=True)
-    cart_id = models.CharField(max_length=250, blank=True)
+    pizza_list = models.TextField(max_length=250, blank=True)
 
     def __str__(self):
         return self.id
+
+    def set_pizza_list(self, x):
+        self.pizza_list = json.dumps(x)
+
+    def get_pizza_list(self):
+        return json.loads(self.pizza_list)
