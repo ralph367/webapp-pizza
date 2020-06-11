@@ -10,14 +10,22 @@
 
 <body>
     <div class="sidebar">
-        {% block sidebar %} Logo
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/">Orders</a></li>
-            <li><a href="#" id="cart">cart</a></li>
-        </ul>
-
-        {% endblock %}
+        <div class="row">
+            <div class="col-md-4 logo">
+                <h1>Logo</h1>
+            </div>
+            <div class="col-md-4">
+                <ul>
+                    <li><a href="/pizzaslist">Home</a></li>
+                    <li><a href="/">Orders</a></li>
+                    <li><a href="/checkout">Checkout</a></li>
+                    <li><a href="/">About</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 Cart">
+                <a id="cart" href="#">Cart</a>
+            </div>
+        </div>
     </div>
     <div class="shopping-cart">
         <div class="shopping-cart-header">
@@ -27,61 +35,68 @@
                 <span id="totalcost" class="main-color-text">0</span>
             </div>
         </div>
-        <!--end shopping-cart-header -->
-
         <ul id="playlist" class="shopping-cart-items">
-
             {% for pizza in request.session.cart%}
-            <li> {{ pizza.name }} {{pizza.amount}} <input type="number" id="update{{pizza.id}}" value="{{pizza.amount}}"
-                    min="1" onKeyDown="return false" onchange="updateCart('{{ pizza.id}}')"> </li>
+            <li> {{ pizza.name }} {{pizza.amount}} <input type="number" id="update{{pizza.id}}" value="{{pizza.amount}}" min="1" onKeyDown="return false" onchange="updateCart('{{ pizza.id}}')"> </li>
             {% endfor %}
-
-
-
         </ul>
-
         <a href="/checkout" class="button">Checkout</a>
     </div>
+
+    <div class="background-image">
+        <div class="container">
+            <h1>Choose and taste to your place.</h1>
+        </div>
+    </div>
     <div class="container">
-        <input id="message" type="text" value="aa">
         <div class="header">
             <h1>
                 {% block mainheader %}Main Header{% endblock mainheader%}
             </h1>
         </div>
         {% block content %}{% endblock content%}
+
+        <input id="message" type="text" value="aa">
     </div>
     {% block script %}{% endblock script%}
     <script>
         var csrftoken = '{{ csrf_token }}';
+
         function updateCart(id) {
             var amount = document.getElementById("update" + id).value;
 
             $.ajax({
                 type: 'POST',
                 url: "/updatecartsession",
-                data: { 'id': id, 'amount': amount  },
-                headers: { "X-CSRFToken": csrftoken },
-                success: function (data) {
+                data: {
+                    'id': id,
+                    'amount': amount
+                },
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                success: function(data) {
                     console.log(data)
                     document.getElementById("message").value = data;
                 },
-                error: function (error) {
+                error: function(error) {
                     console.log(error)
                 }
             });
         }
-        $("#cart").on("click", function () {
+        $("#cart").on("click", function() {
             $(".shopping-cart").fadeToggle("fast");
             $.ajax({
                 type: 'GET',
                 url: "/gettotalcost",
-                headers: { "X-CSRFToken": csrftoken },
-                success: function (data) {
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                success: function(data) {
                     console.log(data)
                     $('#totalcost').text(data);
                 },
-                error: function (error) {
+                error: function(error) {
                     console.log(error)
                 }
             });

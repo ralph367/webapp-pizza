@@ -1,7 +1,7 @@
 .sidebar {
-    overflow: hidden;
     background: #fff;
     position: relative;
+    text-align: center;
     box-shadow: 0 16px 38px -12px rgba(0, 0, 0, .56), 0 4px 25px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
 }
 
@@ -24,7 +24,8 @@
     border-radius: 3px;
     color: #3c4858;
     padding: 15px;
-    text-transform: capitalize;
+    text-transform: uppercase;
+    font-weight: bold;
     font-size: 13px;
     padding: 10px 15px;
     text-decoration: none;
@@ -52,32 +53,32 @@
 }
 
 .sidebar .logo {
-    display: block;
-    padding: 40px;
+    text-align: left;
     z-index: 4;
 }
 
-.sidebar .logo .simple-text {
-    padding: 5px 0;
-    display: inline-block;
-    font-size: 18px;
-    color: #3c4858;
-    white-space: nowrap;
-    font-weight: 400;
-    line-height: 30px;
-    overflow: hidden;
-    text-align: center;
-    display: block;
+.background-image {
+    background-image: url('images/background.jpg');
+    background-size: cover;
+    background-position: 0 -300px;
+    background-attachment: fixed;
+    height: 70vh;
+    position: relative;
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, .56), 0 4px 25px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
 }
 
-.sidebar .logo:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: 15px;
-    height: 1px;
-    width: calc(100% - 30px);
-    background-color: hsla(0, 0%, 71%, .3);
+.background-image .container {
+    text-align: center;
+    height: 100%;
+}
+
+.background-image .container h1 {
+    position: relative;
+    top: 50%;
+    font-size: 70px;
+    font-weight: bold;
+    color: #eee;
+    text-shadow: 5px 5px 10px #585757;
 }
 
 .header {
@@ -86,7 +87,7 @@
 }
 
 .container h1 {
-    color: #3280be;
+    color: #db7005;
 }
 
 .cardcol {
@@ -123,7 +124,7 @@
     margin-top: -20px;
     padding: 15px;
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(40, 126, 196, 0.4);
-    background: linear-gradient(60deg, #3280be, #3280be);
+    background: linear-gradient(60deg, #db7005, #db7005);
     position: relative;
 }
 
@@ -135,8 +136,6 @@
 .row {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
 }
 
 .shopping-cart {
@@ -145,6 +144,7 @@
     background: white;
     width: 320px;
     position: relative;
+    z-index: 1;
     border-radius: 3px;
     padding: 20px;
 }
