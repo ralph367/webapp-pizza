@@ -6,7 +6,6 @@ class HomeView(APIView):
     template_name = 'orders.html'
 
     def get(self, request):
-        
         orders = Orders.objects.all()
         return render(request, self.template_name, {'orders': orders})
 
@@ -14,5 +13,6 @@ class HomeView(APIView):
   
         return render(request, self.template_name, {})
 
-# def index(request):
-#     return render(request, "orders.html", {})
+def CartCheckout(request):
+    cart = request.session.get('cart', [])
+    return render(request, 'checkout.html', {'orders': cart})

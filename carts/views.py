@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from .models import Carts
 from pizzas.models import Pizzas
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
-from django.contrib import messages
 
 
 class HomeView(APIView):
@@ -18,7 +17,7 @@ class HomeView(APIView):
         return render(request, self.template_name, {})
 
 
-def update_cart_session(request):
+def add_cart_session(request):
     if not request.method == 'POST':
         return HttpResponseNotAllowed(['POST'])
     cart = request.session.get('cart', [])
@@ -30,7 +29,6 @@ def update_cart_session(request):
         return HttpResponse("Wrong Values", status=417)
     temp_pizzas = request.session['cart']
     if (pizza_amount < 1):
-        messages.add_message(request, messages.INFO, 'Hello world.')
         return HttpResponse("Negative amount", status=406)
     my_item = next(
         (item for item in temp_pizzas if item['id'] == pizza_id), None)
@@ -51,3 +49,30 @@ def update_cart_session(request):
 
     request.session['cart'] = temp_pizzas
     return HttpResponse('Pizza successfully added', status=200)
+
+
+def update_cart_session(request):
+    if not request.method == 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    cart = request.session.get('cart', [])
+    if not cart:
+        return HttpResponse("Cart is empty you can't udpate", status=412)
+    try:
+        pizza_id = int(request.POST.get('id'))
+        pizza_amount = int(request.POST.get('amount'))
+    except:
+        return HttpResponse("Wrong Values", status=417)
+    temp_pizzas = request.session['cart']
+    if (pizza_amount < 1):
+        return HttpResponse("Negative amount", status=406)
+    my_item = next(
+        (item for item in temp_pizzas if item['id'] == pizza_id), None)
+    if (my_item is None):
+        return HttpResponse("Can't update an unavailable pizza", status=501)
+    else:
+        temp_pizzas.remove(my_item)
+        my_item['amount'] = pizza_amount
+        temp_pizzas.append(my_item)
+
+    request.session['cart'] = temp_pizzas
+    return HttpResponse('Pizza successfully update', status=200)

@@ -29,17 +29,18 @@
         </div>
         <!--end shopping-cart-header -->
 
-        <ul id ="playlist" class="shopping-cart-items">
-    
+        <ul id="playlist" class="shopping-cart-items">
+
             {% for pizza in request.session.cart%}
-               {{ pizza }}
+            <li> {{ pizza.name }} {{pizza.amount}} <input type="number" id="update{{pizza.id}}" value="{{pizza.amount}}"
+                    min="1" onKeyDown="return false" onchange="updateCart('{{ pizza.id}}')"> </li>
             {% endfor %}
-    
-            
+
+
 
         </ul>
 
-        <a href="#" class="button">Checkout</a>
+        <a href="/checkout" class="button">Checkout</a>
     </div>
     <div class="container">
         <input id="message" type="text" value="aa">
@@ -52,32 +53,27 @@
     </div>
     {% block script %}{% endblock script%}
     <script>
+        var csrftoken = '{{ csrf_token }}';
+        function updateCart(id) {
+            var amount = document.getElementById("update" + id).value;
 
-
-            // $("#cart").on("click", function() {
-            //     $(".shopping-cart").fadeToggle("fast");
-            //     $.ajax({
-            //         type: 'GET',
-            //         url: "/carts/",
-            //         dataType: "json",
-            //         success: function (data) {
-            //             console.log(data)
-            //             var list_html = "<ol>";
-            //             for( var i=0; i <data.length; i++) {
-            //                 list_html += "<li>" +  data[i].cart_id + "</li>";
-            //             }
-            //             list_html += "</ol>"
-            //         $("#playlist").html(list_html);
-            //         },
-            //         error: function (error) {
-            //             callbackErr(error, self)
-            //             console.log(res)
-            //         }
-            //         });
-                
-            // });
-
- 
+            $.ajax({
+                type: 'POST',
+                url: "/updatecartsession",
+                data: { 'id': id, 'amount': amount  },
+                headers: { "X-CSRFToken": csrftoken },
+                success: function (data) {
+                    console.log(data)
+                    document.getElementById("message").value = data;
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
+        $("#cart").on("click", function () {
+            $(".shopping-cart").fadeToggle("fast");
+        });
     </script>
 
 </body>
