@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Carts
+from pizzas.models import Pizzas
 from .serializers import CartsSerializer
 
 
@@ -30,3 +31,58 @@ class GetAllCartsTest(TestCase):
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+
+class AddToCart(TestCase):
+    """ Testing to GET all carts API """
+
+    def setUp(self):
+        Pizzas.objects.create(name="peperoni", category="ham")
+        Pizzas.objects.create(name="peperoniii", category="ham")
+        self.valid_payload = {
+            'id': '1',
+            'amount': '1'
+        }
+        self.invalid_payload_negative = {
+            'id': '2',
+            'amount': '-1',
+        }
+        self.invalid_payload_wrongpizza = {
+            'id': '6',
+            'amount': '1',
+        }
+        self.invalid_payload_notint = {
+            'id': 'asd',
+            'amount': 'asdd',
+        }
+
+    def test_update_session_valid_payload(self):
+        # post API response
+        response = client.post(
+            reverse('updatesession'),
+            data=self.valid_payload
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_session_invalid_negative(self):
+        # post API response
+        response = client.post(
+            reverse('updatesession'),
+            data=self.invalid_payload_negative
+        )
+        self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
+
+    def test_update_session_invalid_wrongpizza(self):
+        # post API response
+        response = client.post(
+            reverse('updatesession'),
+            data=self.invalid_payload_wrongpizza
+        )
+        self.assertEqual(response.status_code, status.HTTP_501_NOT_IMPLEMENTED)
+
+    def test_update_session_invalid_notint(self):
+        # post API response
+        response = client.post(
+            reverse('updatesession'),
+            data=self.invalid_payload_notint
+        )
+        self.assertEqual(response.status_code, status.HTTP_417_EXPECTATION_FAILED)

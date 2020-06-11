@@ -32,7 +32,6 @@
       type: 'POST',
       url: "/update_session",
       data: {'id': id, 'amount': amount},
-      context: this,
       headers: { "X-CSRFToken": csrftoken },
       success: function (data) {
         

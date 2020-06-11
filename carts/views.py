@@ -18,19 +18,27 @@ class HomeView(APIView):
         return render(request, self.template_name, {})
 
 
-def update_session(request):
-    if not request.is_ajax() or not request.method == 'POST':
+def update_cart_session(request):
+    if not request.method == 'POST':
         return HttpResponseNotAllowed(['POST'])
-    pizza_id = request.POST.get('id')
-    pizza_amount = int(request.POST.get('amount'))
+    cart = request.session.get('cart', [])
+    request.session['cart'] = cart
+    try:
+        pizza_id = int(request.POST.get('id'))
+        pizza_amount = int(request.POST.get('amount'))
+    except:
+        return HttpResponse("Wrong Values", status=417)
     temp_pizzas = request.session['cart']
     if (pizza_amount < 1):
         messages.add_message(request, messages.INFO, 'Hello world.')
-        return HttpResponse("Negative amount", 300)
+        return HttpResponse("Negative amount", status=406)
     my_item = next(
         (item for item in temp_pizzas if item['id'] == pizza_id), None)
     if (my_item is None):
-        current_pizza = Pizzas.objects.get(id=pizza_id)
+        try:
+            current_pizza = Pizzas.objects.get(id=pizza_id)
+        except:
+            return HttpResponse("Unnavailable Pizza", status=501)
         temp_pizzas.append({'id': pizza_id,
                             'amount': pizza_amount,
                             'description': current_pizza.description,
@@ -42,6 +50,4 @@ def update_session(request):
         temp_pizzas.append(my_item)
 
     request.session['cart'] = temp_pizzas
-
-    print(request.session['cart'])
-    return HttpResponse('Pizza successfully added', 200)
+    return HttpResponse('Pizza successfully added', status=200)
