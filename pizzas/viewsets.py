@@ -5,5 +5,5 @@ from .models import Pizzas
 
 
 class PizzasViewSet(viewsets.ModelViewSet):
-    queryset = Pizzas.objects.all().order_by('pizza_id')
+    queryset = Pizzas.objects.all().order_by('id')
     serializer_class = PizzasSerializer

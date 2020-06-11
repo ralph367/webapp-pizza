@@ -12,5 +12,7 @@ router.register(r'carts', viewsets.CartsViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework_carts')),
-    path('cartlist', views.HomeView.as_view(), name='home')
+    path('cartlist', views.HomeView.as_view(), name='home'),
+    path('addtocartsession', views.add_cart_session, name='addtocart'),
+    path('updatecartsession', views.update_cart_session, name='updatecart')
 ]

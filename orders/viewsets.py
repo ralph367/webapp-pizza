@@ -5,5 +5,5 @@ from .models import Orders
 
 
 class OrdersViewSet(viewsets.ModelViewSet):
-    queryset = Orders.objects.all().order_by('order_id')
+    queryset = Orders.objects.all().order_by('id')
     serializer_class = OrdersSerializer

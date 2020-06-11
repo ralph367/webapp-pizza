@@ -8,7 +8,7 @@ class HomeView(APIView):
 
     def get(self, request):
         pizzas = Pizzas.objects.all()
-        return render(request, self.template_name, {'pizzas': pizzas})
+        return render(request, self.template_name, {'pizzas': pizzas, 'request': request})
 
     def post(self, request):
         return render(request, self.template_name, {})

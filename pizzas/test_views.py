@@ -16,10 +16,10 @@ class GetAllPizzasTest(TestCase):
     """ Testing to GET all pizzas API """
 
     def setUp(self):
-        Pizzas.objects.create(pizza_name="peperoni", pizza_category="ham")
-        Pizzas.objects.create(pizza_name="peperonii", pizza_category="hamm")
-        Pizzas.objects.create(pizza_name="peperoniii", pizza_category="hammm")
-        Pizzas.objects.create(pizza_name="pepii", pizza_category="hamm")
+        Pizzas.objects.create(name="peperoni", category="ham")
+        Pizzas.objects.create(name="peperonii", category="hamm")
+        Pizzas.objects.create(name="peperoniii", category="hammm")
+        Pizzas.objects.create(name="pepii", category="hamm")
 
     def test_get_all_pizzas(self):
         # get API response

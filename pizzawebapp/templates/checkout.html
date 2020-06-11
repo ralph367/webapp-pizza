@@ -3,19 +3,8 @@
 {% block content %}
 
 <div class="row">
-  {% for pizza in pizzas %}
-  <div class="col-md-4">
-    <div class="cardcol">
-      <div class="card">
-        <div class="cardboxheader cardheader">test</div>
-        <div class="cardbody">
-          {{ pizza.name }}
-          <input type="number" id="{{pizza.id}}" value="1" min="1" onKeyDown="return false">
-          <button onclick="addToCart('{{ pizza.id}}')" value="">asdasd</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% for cartlist in carts %}
+    {{cartlist}}
   {% endfor %}
 </div>
 
@@ -30,7 +19,7 @@
     var amount = document.getElementById(id).value;
     $.ajax({
       type: 'POST',
-      url: "/addtocartsession",
+      url: "/update_session",
       data: { 'id': id, 'amount': amount },
       headers: { "X-CSRFToken": csrftoken },
       success: function (data) {

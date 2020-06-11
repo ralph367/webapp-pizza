@@ -10,17 +10,40 @@
 
 <body>
     <div class="sidebar">
-        {% block sidebar %}
-        Logo
+        {% block sidebar %} Logo
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/">Orders</a></li>
+            <li><a href="#" id="cart">cart</a></li>
         </ul>
 
         {% endblock %}
     </div>
+    <div class="shopping-cart">
+        <div class="shopping-cart-header">
+            <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
+            <div class="shopping-cart-total">
+                <span class="lighter-text">Total:</span>
+                <span class="main-color-text">$2,229.97</span>
+            </div>
+        </div>
+        <!--end shopping-cart-header -->
 
+        <ul id="playlist" class="shopping-cart-items">
+
+            {% for pizza in request.session.cart%}
+            <li> {{ pizza.name }} {{pizza.amount}} <input type="number" id="update{{pizza.id}}" value="{{pizza.amount}}"
+                    min="1" onKeyDown="return false" onchange="updateCart('{{ pizza.id}}')"> </li>
+            {% endfor %}
+
+
+
+        </ul>
+
+        <a href="/checkout" class="button">Checkout</a>
+    </div>
     <div class="container">
+        <input id="message" type="text" value="aa">
         <div class="header">
             <h1>
                 {% block mainheader %}Main Header{% endblock mainheader%}
@@ -28,8 +51,31 @@
         </div>
         {% block content %}{% endblock content%}
     </div>
+    {% block script %}{% endblock script%}
+    <script>
+        var csrftoken = '{{ csrf_token }}';
+        function updateCart(id) {
+            var amount = document.getElementById("update" + id).value;
 
-    {% block script %} {% endblock script%}
+            $.ajax({
+                type: 'POST',
+                url: "/updatecartsession",
+                data: { 'id': id, 'amount': amount  },
+                headers: { "X-CSRFToken": csrftoken },
+                success: function (data) {
+                    console.log(data)
+                    document.getElementById("message").value = data;
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
+        $("#cart").on("click", function () {
+            $(".shopping-cart").fadeToggle("fast");
+        });
+    </script>
+
 </body>
 
 </html>
