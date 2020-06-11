@@ -76,3 +76,19 @@ def update_cart_session(request):
 
     request.session['cart'] = temp_pizzas
     return HttpResponse('Pizza successfully update', status=200)
+
+
+def cart_total_cost(request):
+    if not request.method == 'GET':
+        return HttpResponseNotAllowed(['GET'])
+    cart = request.session.get('cart', [])
+    if not cart:
+        return HttpResponse("Cart is empty", status=412)
+    total_cost = 0
+    for pizza in cart:
+        try:
+            current_pizza = Pizzas.objects.get(id=pizza['id'])
+            total_cost += pizza['amount'] * current_pizza.price
+        except:
+            return HttpResponse("Unavailable Pizza", status=501)
+    return HttpResponse(total_cost, status=200)

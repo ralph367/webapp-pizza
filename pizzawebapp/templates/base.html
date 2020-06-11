@@ -24,7 +24,7 @@
             <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
             <div class="shopping-cart-total">
                 <span class="lighter-text">Total:</span>
-                <span class="main-color-text">test</span>
+                <span id="totalcost" class="main-color-text">0</span>
             </div>
         </div>
         <!--end shopping-cart-header -->
@@ -79,6 +79,7 @@
                 headers: { "X-CSRFToken": csrftoken },
                 success: function (data) {
                     console.log(data)
+                    $('#totalcost').text(data);
                 },
                 error: function (error) {
                     console.log(error)

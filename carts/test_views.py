@@ -36,8 +36,8 @@ class AddToCart(TestCase):
     """ Testing to GET all carts API """
 
     def setUp(self):
-        Pizzas.objects.create(name="peperoni", category="ham")
-        Pizzas.objects.create(name="peperoniii", category="ham")
+        Pizzas.objects.create(name="peperoni", category="ham", price=1)
+        Pizzas.objects.create(name="peperoniii", category="ham", price=11)
         self.valid_payload = {
             'id': '1',
             'amount': '1'
@@ -93,8 +93,8 @@ class UpdateCart(TestCase):
     """ Testing to GET all carts API """
 
     def setUp(self):
-        Pizzas.objects.create(name="peperoni", category="ham")
-        Pizzas.objects.create(name="peperoniii", category="ham")
+        Pizzas.objects.create(name="peperoni", category="ham", price=1)
+        Pizzas.objects.create(name="peperoniii", category="ham", price=11)
         self.valid_payload = {
             'id': '1',
             'amount': '1'
@@ -169,3 +169,37 @@ class UpdateCart(TestCase):
         )
         self.assertEqual(response.status_code,
                          status.HTTP_417_EXPECTATION_FAILED)
+
+
+class CartCost(TestCase):
+    """ Testing to GET all carts API """
+
+    def setUp(self):
+        Pizzas.objects.create(name="peperoni", price=12.5)
+        Pizzas.objects.create(name="peperoniii", price=9)
+
+    def test_cart_cost_valid(self):
+        session = self.client.session
+        session['cart'] = [
+            {'id': 1, 'amount': 2}]
+        session.save()
+        # post API response
+        response = self.client.get(reverse('totalcost'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode('utf-8'), str(2 * 12.5))
+
+    def test_cart_cost_unavailable_pizza(self):
+        session = self.client.session
+        session['cart'] = [
+            {'id': 4, 'amount': 2}]
+        session.save()
+        # post API response
+        response = self.client.get(reverse('totalcost'))
+        self.assertEqual(response.status_code, status.HTTP_501_NOT_IMPLEMENTED)
+        self.assertEqual(response.content.decode('utf-8'), "Unavailable Pizza")
+
+    def test_empty_cart_cost(self):
+        # post API response
+        response = self.client.get(reverse('totalcost'))
+        self.assertEqual(response.status_code, status.HTTP_412_PRECONDITION_FAILED)
+        self.assertEqual(response.content.decode('utf-8'), "Cart is empty")
