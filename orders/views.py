@@ -11,7 +11,7 @@ class HomeView(APIView):
 
     def get(self, request):
         orders = Orders.objects.all()
-        return render(request, self.template_name, {'orders': orders})
+        return render(request, self.template_name, {'orders': orders, 'session_orders': request.session['order']})
 
 
 def CartCheckout(request):

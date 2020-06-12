@@ -5,6 +5,7 @@ import json
 class Orders(models.Model):
     id = models.AutoField(primary_key=True)
     price = models.CharField(max_length=250, blank=True)
+    currency = models.CharField(max_length=250, blank=True)
     location = models.CharField(max_length=250, blank=True)
     phone = models.CharField(max_length=250, blank=True)
     addition_info = models.CharField(max_length=250, blank=True)
