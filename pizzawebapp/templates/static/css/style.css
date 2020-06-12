@@ -74,8 +74,10 @@
 .background-image {
     background-image: url('images/background.jpg');
     background-size: cover;
-    background-position: 0 -300px;
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: 0 -180px;
+    width: 100%;
     height: 70vh;
     position: relative;
     box-shadow: 0 16px 38px -12px rgba(0, 0, 0, .56), 0 4px 25px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);

@@ -1,30 +1,29 @@
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-	margin: 0 ;
-	padding: 0;
-	border: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
     vertical-align: baseline;
     font-family: 'Open-Sans';
 }
 
-body{
+body {
     background-color: #eee;
 }
 
-.main-panel{
+.main-panel {
     position: relative;
     float: right;
     width: calc(100% - 260px);
 }
+
 .container {
     width: 900px;
-
     margin: 0 auto;
 }
 
 @font-face {
     font-family: 'Open-Sans';
-    src: local('Open Sans'), local('Open-Sans'),
-        url('font/OpenSans-Regular.ttf') format('truetype');
+    src: local('Open Sans'), local('Open-Sans'), url('font/OpenSans-Regular.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
 }
@@ -35,16 +34,68 @@ body{
     min-height: 1px;
 }
 
-@media (min-width: 768px){
+@media (min-width: 2350px) {
+    .background-image {
+        background-position: 0 -600px;
+    }
+}
+
+@media (min-width: 2100px) {
+    .background-image {
+        background-position: 0 -400px;
+    }
+}
+
+@media (max-width: 1325px) {
+    .sidebar li a {
+        margin-left:5px;
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 1085px) {
+    .sidebar li a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+@media (min-width: 768px) {
     .col-md-4 {
         flex: 0 0 33.3%;
         max-width: 33.3%;
     }
-}
-
-@media (min-width: 768px){
     .col-md-6 {
         flex: 0 0 48%;
         max-width: 48%;
     }
+
 }
+
+@media (min-width:992px) {
+    .col-md-4, .col-md-6 {
+        float: left
+    }
+
+    .col-md-6 {
+        width: 50%
+    }
+   
+    .col-md-4 {
+        width: 33.33333333%
+    }
+ 
+}
+    
+
+    
