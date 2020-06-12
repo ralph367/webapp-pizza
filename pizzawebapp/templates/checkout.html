@@ -1,74 +1,78 @@
-{% extends "base.html" %}
-{% block mainheader %}Main Header{% endblock mainheader%}
-{% block content %}
+{% extends "base.html" %} {% block mainheader %}Checkout Page{% endblock mainheader%} {% block content %}
 
 <div class="row">
-  <div class="card">
-    <div class="cardboxheader cardheader">test</div>
-    <div class="cardbody">
-      {% for pizza in cart %}
-      <ul>
-        <li>{{pizza.name}}</li>
-        <li>Amount : <input type="number" id="checkout{{pizza.id}}" value="{{pizza.amount}}" min="1"
-            onKeyDown="return false" onchange="updateCheckoutCart('{{ pizza.id}}')"> </li>
-        <li>{{pizza.price}}</li>
-
-      </ul>
-      <hr>
-      {% endfor %}
-      <form action="/orders/" method="post">
-        {% csrf_token %}
-        Name : <input type="text" name="name" value="">
-        Address : <input type="text" name="location" value="">
-        Additional Info : <input type="text" name="addition_info" value="">
-        Phone number : <input type="text" name="phone" value="">
-        <button type="submit" value="">Buy</button>
-      </form>
+    <div class="card">
+        <div class="cardboxheader cardheader">Invoice</div>
+        <div class="cardbody">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title"> Your Order </div>
+                    {% for pizza in cart %}
+                    <ul>
+                        <li>{{pizza.name}}</li>
+                        <li>Amount : <input type="number" id="checkout{{pizza.id}}" value="{{pizza.amount}}" min="1" onKeyDown="return false" onchange="updateCheckoutCart('{{ pizza.id}}')"> </li>
+                        <li>Price: {{pizza.price}}</li>
+                    </ul>
+                    <hr> {% endfor %}
+                    <strong><label> Total Pizzas cost: </label> <span id="totalpizzacost" class="totalcostcheckout"></span> € </strong>
+                </div>
+                <div class="col-md-6">
+                    <div class="title"> Personal Information </div>
+                    <form action="/orders/" method="post" class="info">
+                        {% csrf_token %}
+                        <p><label> Name : </label><input type="text" name="name" value=""></p><br>
+                        <p><label>Address : </label><input type="text" name="location" value=""></p><br>
+                        <p><label>Additional Info : </label><input type="text" name="addition_info" value=""></p><br>
+                        <p><label> Phone number : <input type="text" name="phone" value=""></label></p><br>
+                        <div>
+                            <label>Delivery Charge: {{delivery_charge}} €</label><br>
+                            <strong><label>Order Cost: </label><span id="totalordercost" class="totalcostcheckout"></span> € / <span id="totalordercostdolar" class="totalcostcheckout"></span> $</strong></br>
+                            <label>Select payment currency:  </label>
+                            <select name="currency" id="currency">
+                              <option value="euro">Euro</option>
+                              <option value="dolar">Dolar</option>
+                            </select>
+                            <button class="button" type="submit" value="">Buy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
 </div>
 
-{% endblock content %}
-
-{% block script %}
-{% load static %}
+{% endblock content %} {% block script %} {% load static %}
 <script src="{% static 'js/jquery.js'%}"></script>
 <script>
-  var csrftoken = '{{ csrf_token }}';
-  function updateCheckoutCart(id) {
-    var amount = document.getElementById("checkout" + id).value;
-
-    $.ajax({
-      type: 'POST',
-      url: "/updatecartsession",
-      data: { 'id': id, 'amount': amount },
-      headers: { "X-CSRFToken": csrftoken },
-      success: function (data) {
-        console.log(data)
-        document.getElementById("message").value = data;
-      },
-      error: function (error) {
-        console.log(error)
-      }
+    var csrftoken = '{{ csrf_token }}';
+    $(document).ready(function() {
+        cartRender();
     });
-  }
-  function addToCart(id) {
-    var amount = document.getElementById(id).value;
-    $.ajax({
-      type: 'POST',
-      url: "/update_session",
-      data: { 'id': id, 'amount': amount },
-      headers: { "X-CSRFToken": csrftoken },
-      success: function (data) {
-        console.log(data)
-        document.getElementById("message").value = data;
-      },
-      error: function (error) {
-        console.log(error)
-      }
-    });
-  }
 
+    function updateCheckoutCart(id) {
+        var amount = document.getElementById("checkout" + id).value;
+
+        $(".shopping-cart").hide();
+        $.ajax({
+            type: 'POST',
+            url: "/updatecartsession",
+            data: {
+                'id': id,
+                'amount': amount
+            },
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            success: function(data) {
+                console.log(data)
+                $('#messages').text(data);
+                cartRender();
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        });
+    }
 </script>
 {% endblock script %}

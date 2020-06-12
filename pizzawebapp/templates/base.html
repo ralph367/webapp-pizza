@@ -11,8 +11,10 @@
 <body>
     <div class="sidebar">
         <div class="row">
-            <div class="col-md-4 logo">
-                <h1>Logo</h1>
+            <div class="col-md-4">
+                <div class="logo">
+                    <h1>Pizza</h1>
+                </div>
             </div>
             <div class="col-md-4">
                 <ul>
@@ -23,22 +25,20 @@
                 </ul>
             </div>
             <div class="col-md-4 Cart">
-                <a id="cart" href="#">Cart</a>
+                <a id="cart" href="#" class="cartbutton">Shopping Cart</a>
             </div>
         </div>
     </div>
     <div class="shopping-cart">
         <div class="shopping-cart-header">
-            <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
+            <span class="badge">Added Pizzas</span>
             <div class="shopping-cart-total">
                 <span class="lighter-text">Total:</span>
                 <span id="totalcost" class="main-color-text">0</span>
             </div>
         </div>
         <ul id="playlist" class="shopping-cart-items">
-            {% for pizza in request.session.cart%}
-            <li> {{ pizza.name }} {{pizza.amount}} <input type="number" id="update{{pizza.id}}" value="{{pizza.amount}}" min="1" onKeyDown="return false" onchange="updateCart('{{ pizza.id}}')"> </li>
-            {% endfor %}
+
         </ul>
         <a href="/checkout" class="button">Checkout</a>
     </div>
@@ -55,16 +55,25 @@
             </h1>
         </div>
         {% block content %}{% endblock content%}
-
-        <input id="message" type="text" value="aa">
+    </div>
+    <div class="messages" id="message">
+        <span id="messages" class="main-color-text">Please Select a Pizza and add it to the cart</span>
     </div>
     {% block script %}{% endblock script%}
     <script>
         var csrftoken = '{{ csrf_token }}';
+        var delivey = '{{delivery_charge}}';
+        var rate = '{{euro_rate}}'
+        $(document).ready(function() {
+            $(".shopping-cart").hide();
+        });
+        $("#cart").on("click", function() {
+            $(".shopping-cart").fadeToggle("fast");
+            cartRender();
+        });
 
         function updateCart(id) {
             var amount = document.getElementById("update" + id).value;
-
             $.ajax({
                 type: 'POST',
                 url: "/updatecartsession",
@@ -77,15 +86,18 @@
                 },
                 success: function(data) {
                     console.log(data)
-                    document.getElementById("message").value = data;
+                    $('#messages').text(data);
+                    cartRender();
                 },
                 error: function(error) {
                     console.log(error)
                 }
             });
         }
-        $("#cart").on("click", function() {
-            $(".shopping-cart").fadeToggle("fast");
+
+        function cartRender() {
+            $('#playlist').empty();
+            var result = "";
             $.ajax({
                 type: 'GET',
                 url: "/gettotalcost",
@@ -94,13 +106,22 @@
                 },
                 success: function(data) {
                     console.log(data)
-                    $('#totalcost').text(data);
+                    $('#totalcost').text(data['total_cost']);
+                    $.each(data['cart'], function(key, value) {
+                        result += "<li>" + value.name + ": <input class='amount' type='number' id='update" + value.id + "' value='" + value.amount + "' min='1' onKeyDown='return false' onchange='updateCart(" + value.id + ")'> </li>";
+                    });
+                    $('#playlist').append(result);
+                    if (document.getElementById("totalpizzacost")) {
+                        $('#totalpizzacost').text(data['total_cost']);
+                        $('#totalordercost').text(parseFloat(data['total_cost']) + parseFloat(delivey));
+                        $('#totalordercostdolar').text(((parseFloat(data['total_cost']) + parseFloat(delivey)) * rate).toFixed(2));
+                    }
                 },
                 error: function(error) {
                     console.log(error)
                 }
             });
-        });
+        }
     </script>
 
 </body>

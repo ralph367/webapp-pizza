@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import Carts
 from pizzas.models import Pizzas
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect, JsonResponse
 
 
 class HomeView(APIView):
@@ -91,4 +91,4 @@ def cart_total_cost(request):
             total_cost += pizza['amount'] * current_pizza.price
         except:
             return HttpResponse("Unavailable Pizza", status=501)
-    return HttpResponse(total_cost, status=200)
+    return JsonResponse({'total_cost': total_cost, 'cart': cart}, status=200)

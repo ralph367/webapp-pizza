@@ -16,5 +16,7 @@ class HomeView(APIView):
 
 def CartCheckout(request):
     cart = request.session.get('cart', [])
-    return render(request, 'checkout.html', {'cart': cart})
+    delivery_charge = 3
+    euro_rate = 1.13
+    return render(request, 'checkout.html', {'cart': cart, 'delivery_charge': delivery_charge, 'euro_rate': euro_rate})
 

@@ -12,6 +12,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         cart = request.session.get('cart', [])
+        print(request.data.get('currency'))
         data = {
             'price': '1',
             'location': request.data.get('location'),
