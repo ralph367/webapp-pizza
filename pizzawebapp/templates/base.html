@@ -18,10 +18,10 @@
             </div>
             <div class="col-md-4">
                 <ul>
-                    <li><a href="/pizzaslist">Home</a></li>
-                    <li><a href="/">Orders</a></li>
-                    <li><a href="/checkout">Checkout</a></li>
-                    <li><a href="/">About</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="/pizzaslist">Home</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'orderlist' %}active{% endif %}"><a href="/">Orders</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'cartcheckout' %}active{% endif %}"><a href="/checkout">Checkout</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"><a href="/">About</a></li>
                 </ul>
             </div>
             <div class="col-md-4 Cart">
@@ -40,7 +40,7 @@
         <ul id="playlist" class="shopping-cart-items">
 
         </ul>
-        <a href="/checkout" class="button">Checkout</a>
+        <button type="button" class="button" onclick="clearCart()">Clear Cart</button><a href="/checkout" class="button">Checkout</a>
     </div>
 
     <div class="background-image">
@@ -108,7 +108,9 @@
                     console.log(data)
                     $('#totalcost').text(data['total_cost']);
                     $.each(data['cart'], function(key, value) {
-                        result += "<li>" + value.name + ": <input class='amount' type='number' id='update" + value.id + "' value='" + value.amount + "' min='1' onKeyDown='return false' onchange='updateCart(" + value.id + ")'> </li>";
+                        if ( value.amount != 0){
+                            result += "<li>" + value.name + ": <input class='amount' type='number' id='update" + value.id + "' value='" + value.amount + "' min='0' onKeyDown='return false' onchange='updateCart(" + value.id + ")'> </li>";
+                        }
                     });
                     $('#playlist').append(result);
                     if (document.getElementById("totalpizzacost")) {
@@ -116,6 +118,25 @@
                         $('#totalordercost').text(parseFloat(data['total_cost']) + parseFloat(delivey));
                         $('#totalordercostdolar').text(((parseFloat(data['total_cost']) + parseFloat(delivey)) * rate).toFixed(2));
                     }
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+
+        function clearCart() {
+            $.ajax({
+                type: 'DELETE',
+                url: "/clearcart",
+
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                success: function(data) {
+                    console.log(data)
+                    $('#messages').text(data);
+                    cartRender();
                 },
                 error: function(error) {
                     console.log(error)

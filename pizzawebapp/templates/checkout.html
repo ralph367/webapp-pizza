@@ -8,12 +8,17 @@
                 <div class="col-md-6">
                     <div class="title"> Your Order </div>
                     {% for pizza in cart %}
+                    {% if pizza.amount != 0 %}
                     <ul>
+   
                         <li>{{pizza.name}}</li>
-                        <li>Amount : <input type="number" id="checkout{{pizza.id}}" value="{{pizza.amount}}" min="1" onKeyDown="return false" onchange="updateCheckoutCart('{{ pizza.id}}')"> </li>
+                        <li>Amount : <input type="number" id="checkout{{pizza.id}}" value="{{pizza.amount}}" min="0" onKeyDown="return false" onchange="updateCheckoutCart('{{ pizza.id}}')"> </li>
                         <li>Price: {{pizza.price}}</li>
+
                     </ul>
-                    <hr> {% endfor %}
+                    <hr>
+                    {% endif %}
+                     {% endfor %}
                     <strong><label> Total Pizzas cost: </label> <span id="totalpizzacost" class="totalcostcheckout"></span> € </strong>
                 </div>
                 <div class="col-md-6">

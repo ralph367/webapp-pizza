@@ -15,7 +15,8 @@ urlpatterns = [
     path('pizzaslist', views.HomeView.as_view(), name='home'),
     path('addtocartsession', views.add_cart_session, name='addtocart'),
     path('updatecartsession', views.update_cart_session, name='updatecart'),
-    path('gettotalcost', views.cart_total_cost, name='totalcost')
+    path('gettotalcost', views.cart_total_cost, name='totalcost'),
+    path('clearcart', views.clear_cart, name='cartclear')
     # url(
     #     r'^api/v1/pizzas/(?P<pk>[0-9]+)$',
     #     views.get_delete_update_pizza,

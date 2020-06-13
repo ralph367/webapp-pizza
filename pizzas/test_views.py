@@ -199,5 +199,11 @@ class CartCost(TestCase):
     def test_empty_cart_cost(self):
         # post API response
         response = self.client.get(reverse('totalcost'))
-        self.assertEqual(response.status_code, status.HTTP_412_PRECONDITION_FAILED)
-        self.assertEqual(response.content.decode('utf-8'), "Cart is empty")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode('utf-8'), '{"total_cost": 0, "cart": []}')
+
+    def test_clear_cart(self):
+        # post API response
+        response = self.client.delete(reverse('cartclear'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode('utf-8'), 'Cart Cleared')

@@ -4,6 +4,7 @@ from .models import Pizzas
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 # Create your views here.
 
+
 class HomeView(APIView):
     template_name = 'index.html'
 
@@ -13,6 +14,7 @@ class HomeView(APIView):
 
     def post(self, request):
         return render(request, self.template_name, {})
+
 
 def add_cart_session(request):
     if not request.method == 'POST':
@@ -60,7 +62,7 @@ def update_cart_session(request):
     except:
         return HttpResponse("Wrong Values", status=417)
     temp_pizzas = request.session['cart']
-    if (pizza_amount < 1):
+    if (pizza_amount < 0):
         return HttpResponse("Negative amount", status=406)
     my_item = next(
         (item for item in temp_pizzas if item['id'] == pizza_id), None)
@@ -80,7 +82,7 @@ def cart_total_cost(request):
         return HttpResponseNotAllowed(['GET'])
     cart = request.session.get('cart', [])
     if not cart:
-        return HttpResponse("Cart is empty", status=412)
+        return JsonResponse({'total_cost': 0, 'cart': []}, status=200)
     total_cost = 0
     for pizza in cart:
         try:
@@ -89,3 +91,10 @@ def cart_total_cost(request):
         except:
             return HttpResponse("Unavailable Pizza", status=501)
     return JsonResponse({'total_cost': total_cost, 'cart': cart}, status=200)
+
+
+def clear_cart(request):
+    if not request.method == 'DELETE':
+        return HttpResponseNotAllowed(['DELETE'])
+    request.session['cart'] = []
+    return HttpResponse('Cart Cleared', status=200)
