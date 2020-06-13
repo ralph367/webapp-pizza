@@ -34,7 +34,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
             'pizza_list': cart
         }
         serializer = OrdersSerializer(data=data)
-        
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             order = request.session.get('order', [])
@@ -43,4 +43,5 @@ class OrdersViewSet(viewsets.ModelViewSet):
             temp_orders.append(serializer.data)
             request.session['order'] = temp_orders
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

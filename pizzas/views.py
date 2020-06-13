@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import Pizzas
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 # Create your views here.
 
 class HomeView(APIView):
