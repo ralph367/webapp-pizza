@@ -15,8 +15,8 @@ Here is a list of the application functionalities and features to be done:
 - [x] Checkout page showing the cart items
 - [x] Total price in the cart
 - [x] Total price in the checkout page including delivery charge and currency selection
-- [ ] Remove item from the cart
-- [ ] Clear cart
+- [x] Remove item from the cart
+- [x] Clear cart
 - [ ] Responsive web page
 - [ ] Admin rights to add/remove pizza
 - [ ] Checking your order
