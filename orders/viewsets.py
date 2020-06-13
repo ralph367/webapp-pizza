@@ -35,6 +35,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
             'pizza_list': str(cart),
         }
         serializer = OrdersSerializer(data=data)
+        
         if serializer.is_valid():
             if ( not request.user.is_anonymous ):
                 serializer.save(user=request.user)
@@ -45,5 +46,5 @@ class OrdersViewSet(viewsets.ModelViewSet):
             temp_orders.append({'data': [data], 'cart': cart})
             request.session['order'] = temp_orders
             request.session['cart'] = []
-            return HttpResponseRedirect('/orderlist')
+            return HttpResponseRedirect('/orderlist', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

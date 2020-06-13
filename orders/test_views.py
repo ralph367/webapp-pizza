@@ -41,13 +41,12 @@ class PostOrderTest(TestCase):
         Pizzas.objects.create(name="peperoniii", category="hammm", price=1)
         Pizzas.objects.create(name="pepii", category="hamm", price=1)
         self.valid_payload = {
-            'price': '10.2',
+            'price': 10.2,
             'currency': 'euro',
             'location': 'test',
             'phone': 'test',
             'addition_info': 'est',
-            'person_name': 'test',
-            'pizza_list': "adasdasd"
+            'name': 'asd'
         }
 
     def test_post_order(self):
