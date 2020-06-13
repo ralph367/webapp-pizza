@@ -31,17 +31,16 @@ class OrdersViewSet(viewsets.ModelViewSet):
             'phone': request.data.get('phone'),
             'addition_info': request.data.get('addition_info'),
             'person_name': request.data.get('name'),
-            'pizza_list': cart
+            'pizza_list': str(cart)
         }
         serializer = OrdersSerializer(data=data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
             order = request.session.get('order', [])
             request.session['order'] = order
             temp_orders = request.session['order']
-            temp_orders.append(serializer.data)
+            temp_orders.append({'data': [data], 'cart': cart})
             request.session['order'] = temp_orders
+            request.session['cart'] = []
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
