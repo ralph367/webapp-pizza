@@ -7,7 +7,7 @@ For this task, I'm going to use Django to build the web application. Eventhough 
 Here is a list of the application functionalities and features to be done:
 
 - [x] Models creation
-- [ ] User login
+- [x] User login
 - [x] Pizza menu web page
 - [x] Adding pizza to cart
 - [x] Increasing pizza's quantities in the cart and outside the cart
