@@ -19,7 +19,7 @@ Here is a list of the application functionalities and features to be done:
 - [x] Clear cart
 - [ ] Responsive web page
 - [ ] Admin rights to add/remove pizza
-- [ ] Checking your order
+- [x] Checking your order
 - [x] Design 
 
 ## Models
