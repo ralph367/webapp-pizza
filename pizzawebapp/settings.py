@@ -129,4 +129,11 @@ STATICFILES_DIRS = [BASE_DIR + '/pizzawebapp/templates/static']
 STATIC_URL = '/static/'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/home'
+
+LOGOUT_REDIRECT_URL = '/login'
+
+LOGIN_URL = '/login'

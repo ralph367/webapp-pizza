@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import json
 
 # Create your models here.
@@ -11,7 +12,8 @@ class Orders(models.Model):
     addition_info = models.CharField(max_length=250, blank=True)
     person_name = models.CharField(max_length=250, blank=True)
     pizza_list = models.TextField()
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="job", null=True)
+    
     def __str__(self):
         return self.id
 

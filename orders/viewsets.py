@@ -4,7 +4,7 @@ from .serializers import OrdersSerializer
 from rest_framework import status
 from .models import Orders
 from pizzas.models import Pizzas
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 class OrdersViewSet(viewsets.ModelViewSet):
@@ -20,7 +20,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
                 current_pizza = Pizzas.objects.get(id=pizza['id'])
                 total_cost += pizza['amount'] * current_pizza.price
             except:
-                return HttpResponse("Unavailable Pizza", status=501)
+                return HttpResponse("Unavailable Pizza", status=status.HTTP_501_NOT_IMPLEMENTED)
         total_cost += 3
         if currency == 'dolar':
             total_cost = total_cost * 1.13
@@ -31,10 +31,12 @@ class OrdersViewSet(viewsets.ModelViewSet):
             'phone': request.data.get('phone'),
             'addition_info': request.data.get('addition_info'),
             'person_name': request.data.get('name'),
-            'pizza_list': str(cart)
+            'pizza_list': str(cart),
         }
         serializer = OrdersSerializer(data=data)
         if serializer.is_valid():
+            if ( not request.user.is_anonymous ):
+                serializer.save(user=request.user)
             serializer.save()
             order = request.session.get('order', [])
             request.session['order'] = order
@@ -42,5 +44,5 @@ class OrdersViewSet(viewsets.ModelViewSet):
             temp_orders.append({'data': [data], 'cart': cart})
             request.session['order'] = temp_orders
             request.session['cart'] = []
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponseRedirect('/orderlist')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
