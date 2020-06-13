@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Orders
 from pizzas.models import Pizzas
 from django.http import HttpResponse, HttpResponseRedirect
+from pizzawebapp.variables import UNAVAILABE_PIZZA, DOLLAR, DOLLAR_RATE, DELIVERY_CHARGES
 
 
 class OrdersViewSet(viewsets.ModelViewSet):
@@ -20,10 +21,10 @@ class OrdersViewSet(viewsets.ModelViewSet):
                 current_pizza = Pizzas.objects.get(id=pizza['id'])
                 total_cost += pizza['amount'] * current_pizza.price
             except:
-                return HttpResponse("Unavailable Pizza", status=status.HTTP_501_NOT_IMPLEMENTED)
-        total_cost += 3
-        if currency == 'dolar':
-            total_cost = total_cost * 1.13
+                return HttpResponse( UNAVAILABE_PIZZA, status=status.HTTP_501_NOT_IMPLEMENTED)
+        total_cost += DELIVERY_CHARGES
+        if currency == DOLLAR:
+            total_cost = total_cost * DOLLAR_RATE
         data = {
             'price': total_cost,
             'currency': currency,
