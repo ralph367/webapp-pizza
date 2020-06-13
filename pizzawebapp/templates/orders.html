@@ -1,19 +1,35 @@
-{% extends "base.html" %} {% block mainheader %}Main Header{% endblock mainheader%} {% block content %}
+{% extends "base.html" %} {% block mainheader %}Your Orders{% endblock mainheader%} {% block content %}
 
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="cardcol">
-            <div class="card">
-                <div class="cardboxheader cardheader">Order</div>
-                <div class="cardbody">
-                    {% for list in session_orders %} {% for pizza in list.pizza_list %} {{pizza}} {% endfor %} {% endfor %}
+{% for order in session_orders %}
+<div class="cardcol">
+    <div class="card">
+        <div class="cardboxheader cardheader">Order {{forloop.counter}}</div>
+        <div class="cardbody">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title"> Your Order </div>
+                    {%for pizza in order.cart%}
+                    <ul>
+                        <li>{{pizza.name}}</li>
+                        <li>Amount : {{pizza.amount}} </li>
+                        <li>Price: {{pizza.price}}</li>
+                    </ul>
+                    <hr>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6">
+                    <div class="title"> Personal Information </div>
+                    {%for data in order.data%}
+                    <p><label> Person name : {{data.person_name}}</label></p><br>
+                    <p><label> Location : {{data.location}}</label></p><br>
+                    <p><label> Price : {{data.price}} {{data.currency}}</label></p><br>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+{% endfor %}
 
 {% endblock content %} {% block script %} {% load static %}
 <script src="{% static 'js/jquery.js'%}"></script>
