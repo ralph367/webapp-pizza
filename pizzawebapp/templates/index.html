@@ -1,34 +1,60 @@
-{% extends "base.html" %}
-{% block mainheader %}Main Header{% endblock mainheader%}
-{% block content %}
+{% extends "base.html" %} {% block mainheader %}Our Menu{% endblock mainheader%} {% block content %}
 
 <div class="row">
-  {% for pizza in pizzas %}
-  <div class="col-md-4">
-    <div class="cardcol">
-    <div class="card">
-      <div class="cardboxheader cardheader">test</div>
-      <div class="cardbody">
-        {{ pizza.pizza_name }}
-        <input type="number" id="{{pizza.pizza_id}}" value="1" min="1">
-        <button onclick="addToCart('{{ pizza.pizza_id}}')" value="">asdasd</button>
-      </div>
+    {% for pizza in pizzas %}
+    <div class="col-md-6">
+        <div class="cardcol">
+            <div class="card">
+                <div class="cardboxheader cardheader">{{ pizza.name }}</div>
+                <div class="cardbody">
+                    <img src="/media/{{ pizza.image }}" class="pizzaimage" />
+                    <div class="description">
+                        {{pizza.description}}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label><strong> Price: {{pizza.price}} € </strong></label></br>
+                            <label>Quantity: </label>
+                            <input class="amount" type="number" id="{{pizza.id}}" value="1" min="1" onKeyDown="return false">
+                        </div>
+                        <div class="col-md-6">
+                            <button class="buttonstyle" onclick="addToCart('{{ pizza.id}}')" value="">Add To Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
 </div>
 
-{% endblock content %}
-
-{% block script %}
-{% load static %}
+{% endblock content %} {% block script %} {% load static %}
 <script src="{% static 'js/jquery.js'%}"></script>
 <script>
-function addToCart(x){
-  var amount = document.getElementById(x).value;
-  alert(amount)
-}
+    var csrftoken = '{{ csrf_token }}';
 
+    function addToCart(id) {
+        $(".shopping-cart").hide();
+        var amount = document.getElementById(id).value;
+
+        $.ajax({
+            type: 'POST',
+            url: "/addtocartsession",
+            data: {
+                'id': id,
+                'amount': amount
+            },
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            success: function(data) {
+                console.log(data)
+                $('#messages').text(data);
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        });
+    }
 </script>
 {% endblock script %}

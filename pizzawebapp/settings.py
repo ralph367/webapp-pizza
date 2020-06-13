@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pizzas',
     'orders',
-    'carts',
     'users',
     'rest_framework'
 ]
@@ -80,7 +79,7 @@ WSGI_APPLICATION = 'pizzawebapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django',
         'USER': 'root',
         'PASSWORD': '',
@@ -128,3 +127,6 @@ USE_TZ = True
 STATICFILES_DIRS = [BASE_DIR + '/pizzawebapp/templates/static']
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+MEDIA_URL = '/media/'

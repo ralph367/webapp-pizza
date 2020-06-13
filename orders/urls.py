@@ -12,5 +12,6 @@ router.register(r'orders', viewsets.OrdersViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework_orders')),
-    path('orderlist', views.HomeView.as_view(), name='home')
+    path('orderlist', views.HomeView.as_view(), name='orderlist'),
+    path('checkout', views.CartCheckout, name='cartcheckout'),
 ]

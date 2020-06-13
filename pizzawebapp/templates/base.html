@@ -10,16 +10,44 @@
 
 <body>
     <div class="sidebar">
-        {% block sidebar %}
-        Logo
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/">Orders</a></li>
-        </ul>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="logo">
+                    <h1>Pizza</h1>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul>
+                    <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="/pizzaslist">Home</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'orderlist' %}active{% endif %}"><a href="/">Orders</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'cartcheckout' %}active{% endif %}"><a href="/checkout">Checkout</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"><a href="/">About</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 Cart">
+                <a id="cart" href="#" class="cartbutton">Shopping Cart</a>
+            </div>
+        </div>
+    </div>
+    <div class="shopping-cart">
+        <div class="shopping-cart-header">
+            <span class="badge">Added Pizzas</span>
+            <div class="shopping-cart-total">
+                <span class="lighter-text">Total:</span>
+                <span id="totalcost" class="main-color-text">0</span>
+            </div>
+        </div>
+        <ul id="playlist" class="shopping-cart-items">
 
-        {% endblock %}
+        </ul>
+        <button type="button" class="button" onclick="clearCart()">Clear Cart</button><a href="/checkout" class="button">Checkout</a>
     </div>
 
+    <div class="background-image">
+        <div class="container">
+            <h1>Choose and taste to your place.</h1>
+        </div>
+    </div>
     <div class="container">
         <div class="header">
             <h1>
@@ -28,8 +56,95 @@
         </div>
         {% block content %}{% endblock content%}
     </div>
+    <div class="messages" id="message">
+        <span id="messages" class="main-color-text">Please Select a Pizza and add it to the cart</span>
+    </div>
+    {% block script %}{% endblock script%}
+    <script>
+        var csrftoken = '{{ csrf_token }}';
+        var delivey = '{{delivery_charge}}';
+        var rate = '{{euro_rate}}'
+        $(document).ready(function() {
+            $(".shopping-cart").hide();
+        });
+        $("#cart").on("click", function() {
+            $(".shopping-cart").fadeToggle("fast");
+            cartRender();
+        });
 
-    {% block script %} {% endblock script%}
+        function updateCart(id) {
+            var amount = document.getElementById("update" + id).value;
+            $.ajax({
+                type: 'POST',
+                url: "/updatecartsession",
+                data: {
+                    'id': id,
+                    'amount': amount
+                },
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                success: function(data) {
+                    console.log(data)
+                    $('#messages').text(data);
+                    cartRender();
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+
+        function cartRender() {
+            $('#playlist').empty();
+            var result = "";
+            $.ajax({
+                type: 'GET',
+                url: "/gettotalcost",
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                success: function(data) {
+                    console.log(data)
+                    $('#totalcost').text(data['total_cost']);
+                    $.each(data['cart'], function(key, value) {
+                        if ( value.amount != 0){
+                            result += "<li>" + value.name + ": <input class='amount' type='number' id='update" + value.id + "' value='" + value.amount + "' min='0' onKeyDown='return false' onchange='updateCart(" + value.id + ")'> </li>";
+                        }
+                    });
+                    $('#playlist').append(result);
+                    if (document.getElementById("totalpizzacost")) {
+                        $('#totalpizzacost').text(data['total_cost']);
+                        $('#totalordercost').text(parseFloat(data['total_cost']) + parseFloat(delivey));
+                        $('#totalordercostdolar').text(((parseFloat(data['total_cost']) + parseFloat(delivey)) * rate).toFixed(2));
+                    }
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+
+        function clearCart() {
+            $.ajax({
+                type: 'DELETE',
+                url: "/clearcart",
+
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                success: function(data) {
+                    console.log(data)
+                    $('#messages').text(data);
+                    cartRender();
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>
