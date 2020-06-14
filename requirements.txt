@@ -1,4 +1,4 @@
 Django
 python-dotenv
-rest_framework
+djangorestframework
 setuptools
