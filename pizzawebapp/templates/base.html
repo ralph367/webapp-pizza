@@ -9,26 +9,34 @@
 </head>
 
 <body>
-    <div class="sidebar">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="logo">
-                    <h1>Pizza</h1>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <ul>
-                    <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="/pizzaslist">Home</a></li>
-                    <li class="{% if request.resolver_match.url_name == 'orderlist' %}active{% endif %}"><a href="/orderlist">Orders</a></li>
-                    <li class="{% if request.resolver_match.url_name == 'cartcheckout' %}active{% endif %}"><a href="/checkout">Checkout</a></li>
-                    <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"><a href="/">About</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 Cart">
-                <a id="cart" href="#" class="cartbutton">Shopping Cart</a>
-            </div>
+
+    <nav class="navigation">
+        <div class="nav-logo">Pizza</div>
+        <ul class="nav-menu">
+            <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="/">Home</a></li>
+            <li class="{% if request.resolver_match.url_name == 'orderlist' %}active{% endif %}"><a
+                    href="/orderlist">Orders</a></li>
+            <li class="{% if request.resolver_match.url_name == 'cartcheckout' %}active{% endif %}"><a
+                    href="/checkout">Checkout</a></li>
+            {% if request.user.is_authenticated %}
+            <li class="{% if request.resolver_match.url_name == 'history' %}active{% endif %}"><a
+                    href="/history">History</a></li>
+            {% endif %}
+            {% if not request.user.is_authenticated %}
+            <li class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}"><a href="/login">Login</a>
+            </li>
+            <li class="{% if request.resolver_match.url_name == 'register' %}active{% endif %}"><a
+                    href="/register">Register</a></li>
+            {% endif %}
+        </ul>
+        <div class="cartbutt"><a id="cart" href="#" class="cartbutton">Shopping Cart</a></div>
+        <div class="nav-toggle">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
         </div>
-    </div>
+    </nav>
+    <div class="nav-overlay"></div>
     <div class="shopping-cart">
         <div class="shopping-cart-header">
             <span class="badge">Added Pizzas</span>
@@ -40,7 +48,8 @@
         <ul id="playlist" class="shopping-cart-items">
 
         </ul>
-        <button type="button" class="button" onclick="clearCart()">Clear Cart</button><a href="/checkout" class="button">Checkout</a>
+        <button type="button" class="button" onclick="clearCart()">Clear Cart</button><a href="/checkout"
+            class="button">Checkout</a>
     </div>
 
     <div class="background-image">
@@ -60,17 +69,25 @@
         <span id="messages" class="main-color-text">Please Select a Pizza and add it to the cart</span>
     </div>
     {% block script %}{% endblock script%}
+    <script src="{% static 'js/jquery.js'%}"></script>
     <script>
         var csrftoken = '{{ csrf_token }}';
         var delivey = '{{delivery_charge}}';
         var rate = '{{euro_rate}}'
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".shopping-cart").hide();
+            cartRender();
         });
-        $("#cart").on("click", function() {
+        $("#cart").on("click", function () {
             $(".shopping-cart").fadeToggle("fast");
             cartRender();
         });
+        $('.nav-toggle').click(function (e) {
+            e.preventDefault();
+            $('.nav-toggle').toggleClass('active');
+            $('.nav-menu').toggleClass('active');
+            $('.nav-overlay').toggleClass('active');
+        })
 
         function updateCart(id) {
             var amount = document.getElementById("update" + id).value;
@@ -84,12 +101,12 @@
                 headers: {
                     "X-CSRFToken": csrftoken
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(data)
                     $('#messages').text(data);
                     cartRender();
                 },
-                error: function(error) {
+                error: function (error) {
                     console.log(error)
                 }
             });
@@ -104,11 +121,11 @@
                 headers: {
                     "X-CSRFToken": csrftoken
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(data)
                     $('#totalcost').text(data['total_cost']);
-                    $.each(data['cart'], function(key, value) {
-                        if ( value.amount != 0){
+                    $.each(data['cart'], function (key, value) {
+                        if (value.amount != 0) {
                             result += "<li>" + value.name + ": <input class='amount' type='number' id='update" + value.id + "' value='" + value.amount + "' min='0' onKeyDown='return false' onchange='updateCart(" + value.id + ")'> </li>";
                         }
                     });
@@ -119,7 +136,7 @@
                         $('#totalordercostdolar').text(((parseFloat(data['total_cost']) + parseFloat(delivey)) * rate).toFixed(2));
                     }
                 },
-                error: function(error) {
+                error: function (error) {
                     console.log(error)
                 }
             });
@@ -133,12 +150,12 @@
                 headers: {
                     "X-CSRFToken": csrftoken
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(data)
                     $('#messages').text(data);
                     cartRender();
                 },
-                error: function(error) {
+                error: function (error) {
                     console.log(error)
                 }
             });

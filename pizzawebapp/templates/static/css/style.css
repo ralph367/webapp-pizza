@@ -1,63 +1,116 @@
-.sidebar {
-    background: #fff;
-    position: relative;
-    text-align: center;
-    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, .56), 0 4px 25px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
-}
-
-.sidebar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    display: inline-block;
-}
-
-.sidebar li {
-    float: left;
-    margin: 10px 15px;
-    
-}
-
-.sidebar li a {
-    display: block;
-    text-align: center;
-    padding: 15px 20px;
-    border-radius: 3px;
+nav.navigation{
+	position:relative;
+	height:70px;
+	background-color:#eee;
     color: #3c4858;
-    text-transform: uppercase;
     font-weight: bold;
-    font-size: 13px;
-    text-decoration: none;
+	z-index:2;
 }
 
-.sidebar .nav p {
-    text-align: center;
-    margin: 15px;
-    line-height: 10px;
-    font-size: 15px;
-    display: block;
-    height: auto;
-    white-space: nowrap;
+.nav-logo{
+	float:left;
+	height:70px;
+	line-height:70px;
+	padding:0 20px;
+    color: #3c4858;
+	text-transform:uppercase;
 }
 
-.sidebar li.active {
+ul.nav-menu, ul.nav-menu li, ul.nav-menu li a{
+    
+    color: #3c4858;
+	float:left;
+}
+
+ul.nav-menu{
+	padding-left:20px;
+}
+
+ul.nav-menu li a{
+	height:50px;
+	line-height:50px;
+	padding:0 10px;
+    color: #3c4858;
+    text-decoration:none;
+}
+
+
+
+ul.nav-menu li{
+    
+    margin: 10px;
+    list-style: none;
+}
+
+ul.nav-menu li.active {
     background-color: #db7005;
     -webkit-border-radius: 3px 3px 3px 3px;
     border-radius: 3px 3px 3px 3px;
 }
 
-.sidebar li.active a {
+ul.nav-menu li.active a {
     color: #fff;
 }
 
-.sidebar .logo {
-    text-align: left;
-    z-index: 4;
-    margin: 15px;
+ul.nav-menu li.active a:hover {
+    color: #3c4858;
 }
 
-.Cart .cartbutton {
+ul.nav-menu li a:hover{
+	color:#db7005;
+}
+
+.nav-toggle{
+	position:absolute;
+	top:0;
+	right:0;
+	width:70px;
+	height:70px;
+	background-color:#db7005;
+    cursor:pointer;
+    display: none;
+}
+
+span.icon-bar{
+	position:absolute;
+	right:12px;
+	display:block;
+	width:26px;
+	height:2px;
+	background-color:#ffffff;
+}
+
+.icon-bar:nth-child(1){
+  top:27px;
+  right: 20px;
+}
+.icon-bar:nth-child(2){
+  top:34px;
+  right: 20px;
+}
+.icon-bar:nth-child(3){
+  top:41px;
+  right: 20px;
+}
+
+.nav-overlay{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	background-color:rgba(0,0,0,0.5);
+	z-index:1;
+    opacity:0;
+	visibility:hidden;
+}
+
+.nav-overlay.active{
+	opacity:1;
+	visibility:visible;
+}
+
+.cartbutt .cartbutton {
     background: gray;
     color: white;
     text-align: center;
@@ -206,11 +259,11 @@
 }
 
 .shopping-cart {
-    margin: 15px;
-    float: right;
+    margin-top: 15px;
+    right: 15px;
     background: white;
     width: 320px;
-    position: relative;
+    position: absolute;
     z-index: 1;
     border-radius: 3px;
     padding: 20px;

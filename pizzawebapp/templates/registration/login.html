@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block mainheader %}Login Page{% endblock mainheader%} {% block content %}
+
+
+<div class="container">
+    <div class="card col-md-12">
+        <card-header text="Your login information"></card-header>
+        <div class="cardbody">
+            <form method="POST" class="form-group">
+                {% csrf_token %}
+
+                {{form.as_p}}
+                <button type="submit">Login</button>
+                <p>Create a new account <a href="/register">here</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

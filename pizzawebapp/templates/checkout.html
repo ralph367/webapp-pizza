@@ -35,7 +35,7 @@
                             <label>Select payment currency:  </label>
                             <select name="currency" id="currency">
                               <option value="euro">Euro</option>
-                              <option value="dolar">Dolar</option>
+                              <option value="dollar">Dollar</option>
                             </select>
                             <button class="button" type="submit" value="">Buy</button>
                         </div>
@@ -47,13 +47,9 @@
 
 </div>
 
-{% endblock content %} {% block script %} {% load static %}
-<script src="{% static 'js/jquery.js'%}"></script>
+{% endblock content %} {% block script %} 
 <script>
     var csrftoken = '{{ csrf_token }}';
-    $(document).ready(function() {
-        cartRender();
-    });
 
     function updateCheckoutCart(id) {
         var amount = document.getElementById("checkout" + id).value;

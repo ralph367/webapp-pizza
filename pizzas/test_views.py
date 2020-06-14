@@ -32,7 +32,7 @@ class GetAllPizzasTest(TestCase):
 
 
 class AddToCart(TestCase):
-    """ Testing to GET all carts API """
+    """ Testing to add the pizza to the cart session """
 
     def setUp(self):
         Pizzas.objects.create(name="peperoni", category="ham", price=1)
@@ -89,7 +89,7 @@ class AddToCart(TestCase):
 
 
 class UpdateCart(TestCase):
-    """ Testing to GET all carts API """
+    """ Testing to update the cart amount/pizza/cost """
 
     def setUp(self):
         Pizzas.objects.create(name="peperoni", category="ham", price=1)
@@ -171,7 +171,7 @@ class UpdateCart(TestCase):
 
 
 class CartCost(TestCase):
-    """ Testing to GET all carts API """
+    """ Testing to GET the cart total cost """
 
     def setUp(self):
         Pizzas.objects.create(name="peperoni", price=12.5)
@@ -194,7 +194,7 @@ class CartCost(TestCase):
         # post API response
         response = self.client.get(reverse('totalcost'))
         self.assertEqual(response.status_code, status.HTTP_501_NOT_IMPLEMENTED)
-        self.assertEqual(response.content.decode('utf-8'), "Unavailable Pizza")
+        self.assertEqual(response.content.decode('utf-8'), "Unavailable pizza")
 
     def test_empty_cart_cost(self):
         # post API response
@@ -206,4 +206,4 @@ class CartCost(TestCase):
         # post API response
         response = self.client.delete(reverse('cartclear'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode('utf-8'), 'Cart Cleared')
+        self.assertEqual(response.content.decode('utf-8'), 'Cleared the cart')

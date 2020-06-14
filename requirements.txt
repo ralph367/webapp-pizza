@@ -1,0 +1,7 @@
+Django
+python-dotenv
+djangorestframework
+setuptools
+mysqlclient
+whitenoise
+gunicorn

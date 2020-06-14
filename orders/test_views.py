@@ -13,27 +13,8 @@ client = Client()
 apiclient = APIClient()
 
 
-class GetAllOrdersTest(TestCase):
-    """ Testing to GET all orders API """
-
-    def setUp(self):
-        Orders.objects.create(price="1")
-        Orders.objects.create(price="2")
-        Orders.objects.create(price="3")
-        Orders.objects.create(price="4")
-
-    def test_get_all_orders(self):
-        # get API response
-        response = apiclient.get('/orders/')
-        # get data from db
-        orders = Orders.objects.all()
-        serializer = OrdersSerializer(orders, many=True)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-
 class PostOrderTest(TestCase):
-    """ Testing to GET all orders API """
+    """ Testing to create a new order object """
 
     def setUp(self):
         Pizzas.objects.create(name="Peperoni", category="Salami", price=10.2)
@@ -41,13 +22,12 @@ class PostOrderTest(TestCase):
         Pizzas.objects.create(name="peperoniii", category="hammm", price=1)
         Pizzas.objects.create(name="pepii", category="hamm", price=1)
         self.valid_payload = {
-            'price': '10.2',
+            'price': 10.2,
             'currency': 'euro',
             'location': 'test',
             'phone': 'test',
             'addition_info': 'est',
-            'person_name': 'test',
-            'pizza_list': "adasdasd"
+            'name': 'asd'
         }
 
     def test_post_order(self):
