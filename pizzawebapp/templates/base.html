@@ -65,15 +65,18 @@
         </div>
         {% block content %}{% endblock content%}
     </div>
+    {% if request.path != '/login/' and request.path != '/register/' and request.path != '/orderlist' and request.path != '/orders' %}
     <div class="messages" id="message">
         <span id="messages" class="main-color-text">Please Select a Pizza and add it to the cart</span>
     </div>
+    {% endif%}
     {% block script %}{% endblock script%}
     <script src="{% static 'js/jquery.js'%}"></script>
     <script>
         var csrftoken = '{{ csrf_token }}';
         var delivey = '{{delivery_charge}}';
-        var rate = '{{euro_rate}}'
+        var rate = '{{euro_rate}}';
+        var counter = 1;
         $(document).ready(function () {
             $(".shopping-cart").hide();
             cartRender();
@@ -102,8 +105,15 @@
                     "X-CSRFToken": csrftoken
                 },
                 success: function (data) {
-                    console.log(data)
-                    $('#messages').text(data);
+                    console.log( data)
+                    if (  $('#messages').html() == data ||  $('#messages').html() == data+"("+counter-1+")" ){
+                        $('#messages').text(data +"("+counter+")");
+                        counter++;
+                    }
+                    else {
+                        counter = 0
+                        $('#messages').text(data);
+                    }
                     cartRender();
                 },
                 error: function (error) {

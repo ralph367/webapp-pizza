@@ -27,7 +27,8 @@ SECRET_KEY = '^xhqa_mstn^u3uf1qihjzwns9+87a9#&xrg(3@6&q7b$e!ry1c'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'pizza-task-django.herokuapp.com'
+    'pizza-task-django.herokuapp.com',
+    '127.0.0.1'
 ]
 
 
