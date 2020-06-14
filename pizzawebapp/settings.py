@@ -146,7 +146,6 @@ REST_FRAMEWORK = {
     )
 }
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStora'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
