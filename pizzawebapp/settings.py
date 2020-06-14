@@ -26,7 +26,9 @@ SECRET_KEY = '^xhqa_mstn^u3uf1qihjzwns9+87a9#&xrg(3@6&q7b$e!ry1c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'pizza-task-django.herokuapp.com'
+]
 
 
 # Application definition
@@ -51,7 +53,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'pizzawebapp.urls'
@@ -127,7 +130,6 @@ USE_TZ = True
 
 STATICFILES_DIRS = [BASE_DIR + '/pizzawebapp/templates/static']
 
-STATIC_URL = '/static/'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
 
@@ -144,3 +146,11 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
+

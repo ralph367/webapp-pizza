@@ -1,0 +1,1 @@
+web: gunicorn pizzawebapp.wsgi --log-file -
