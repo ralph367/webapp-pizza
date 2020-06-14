@@ -2,7 +2,9 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Pizzas
+from .serializers import PizzasSerializer
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.contrib.admin.views.decorators import staff_member_required
 from pizzawebapp.variables import WRONG_VALUES, NEAGATIVE_AMOUNT, UNAVAILABE_PIZZA, SUCCESSFULLY_ADDED, EMPTY_CART, CLEARED_CART, SUCCESSFULLY_UPDATED
 # Create your views here.
 
@@ -167,3 +169,11 @@ def GetPizzasIDFromSession(request):
         if pizza['id'] in pizzas:
             pizzasID.append(pizza['id'])
     return pizzasID
+
+@staff_member_required
+def AddPizza( request):
+    data= {}
+    serializer = PizzasSerializer(data=data)
+    if not serializer.is_valid():
+        return render(request,'admin.html' ,{'serializer': serializer})
+    return render(request,'admin.html', {'serializer': serializer})
