@@ -21,11 +21,31 @@ Here is a list of the application functionalities and features to be done:
 - [ ] Admin rights to add/remove pizza
 - [x] Checking your order
 - [x] Design 
+- [x] User order history
+
+To sum up the task:
+Any client can access the web application, he can add any pizza to the cart which will be saved in the session then he can checkout and buy the order. This client can as well remove item from the cart, clear the cart, increment/decrement the pizza's quantity in the cart, in the menu and in the checkout page. The price will be instantly updated, in the cart and in the checkout page. In the checkout page the client can choose the payment currency and it will be calculated including the delivery charges. Once the client buys the order, he can still check the session's order.
+For a logged in user, he got same features as a guest user but in addition to the above a user can always check his order history since it is saved in the database. 
 
 ## Models
 
 ![modeldiagram](media/images/modeldiagram.png)
 
-## Cart
+Here is a list of the model I'm using in this project, as you can see for the order model there is a user field, which is a foreign key of the User default Django's model. So if the User is logged in then when he places an order a new order will be created with the logged in User's ID.
+And for the pizza_list field, we will add the pizza's ids in order to be able to show the user's order history. 
 
-At the moment, the cart is being saved over the client's session
+### Cart
+
+At the moment, the cart is being saved over the client's session. Also even if a guest user was adding items to the cart then he realized that he isn't logged in, he still can log in without affecting his cart since it is being saved in the session.
+
+### Order
+
+The order will always be saved in the database and the client's session, but the only difference is that a logged in user who makes an order, his account id will be saved in the order user field else it shows null.
+
+### User 
+
+Django's User system is being used in here, so there isn't any user login/logout/register script. Just few html pages to render the default form of Django. 
+
+## Test-driven Development 
+
+I tried using unit tests for every function in this task but due to the limitation of time I didn't implement and tried all the available and possible cases for each function so maybe I missed some of the special cases. The idea behind using TDD was just to make sure after each function update and changes the system is still working without any error/bug 
