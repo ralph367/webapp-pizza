@@ -2,4 +2,5 @@ Django
 python-dotenv
 djangorestframework
 setuptools
-mysqlclient 
+mysqlclient
+whitenoise
