@@ -4,3 +4,4 @@ djangorestframework
 setuptools
 mysqlclient
 whitenoise
+gunicorn
