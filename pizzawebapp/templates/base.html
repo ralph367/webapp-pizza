@@ -28,6 +28,10 @@
             <li class="{% if request.resolver_match.url_name == 'register' %}active{% endif %}"><a
                     href="/register">Register</a></li>
             {% endif %}
+            {% if request.user.is_staff %}
+            <li class="{% if request.resolver_match.url_name == 'history' %}active{% endif %}"><a
+                    href="/addpizza">Add Pizza</a></li>
+            {% endif %}
         </ul>
         <div class="cartbutt"><a id="cart" href="#" class="cartbutton">Shopping Cart</a></div>
         <div class="nav-toggle">
