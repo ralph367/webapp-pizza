@@ -3,12 +3,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
-def register(response):
-    if response.method == "POST":
-        form = UserCreationForm(response.POST)
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect("/home")
+            return redirect("/home")
     else:
         form = UserCreationForm()
-    return render(response,"register.html", {"form": form})
+    return render(request,"registration/register.html", {"form": form})
