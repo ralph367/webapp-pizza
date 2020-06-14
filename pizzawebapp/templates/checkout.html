@@ -50,9 +50,6 @@
 {% endblock content %} {% block script %} 
 <script>
     var csrftoken = '{{ csrf_token }}';
-    $(document).ready(function() {
-        cartRender();
-    });
 
     function updateCheckoutCart(id) {
         var amount = document.getElementById("checkout" + id).value;

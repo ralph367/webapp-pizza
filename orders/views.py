@@ -8,17 +8,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from pizzawebapp.variables import DELIVERY_CHARGES, DOLLAR_RATE
 
-class HomeView(APIView):
-    template_name = 'orders.html'
 
-    def get(self, request):
-        orders = Orders.objects.all()
-        try:
-            session_orders = request.session['order']
-
-            return render(request, self.template_name, {'orders': orders, 'session_orders': session_orders})
-        except:  
-            return render(request, self.template_name, {'orders': orders, 'session_orders': []})
+def GetSessionOrder( request):
+    try:
+        session_orders = request.session['order']
+        return render(request, 'orders.html', { 'session_orders': session_orders})
+    except:  
+        return render(request, 'orders.html', { 'session_orders': []})
 
 
 def CartCheckout(request):

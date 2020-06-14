@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .serializers import OrdersSerializer
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework import status
 from .models import Orders
 from pizzas.models import Pizzas
@@ -12,6 +13,7 @@ from pizzawebapp.variables import UNAVAILABE_PIZZA, DOLLAR, DOLLAR_RATE, DELIVER
 class OrdersViewSet(viewsets.ModelViewSet):
     queryset = Orders.objects.all().order_by('id')
     serializer_class = OrdersSerializer
+    renderer_classes = [TemplateHTMLRenderer]
 
     def create(self, request):
         """Creating an order on request
@@ -65,5 +67,5 @@ class OrdersViewSet(viewsets.ModelViewSet):
             temp_orders.append({'data': [data], 'cart': cart})
             request.session['order'] = temp_orders
             request.session['cart'] = []
-            return HttpResponseRedirect('/orderlist', status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'session_orders': request.session['order']}, template_name="orders.html", status=status.HTTP_201_CREATED)
+        return Response({}, template_name="orders.html", status=status.HTTP_406_NOT_ACCEPTABLE)
