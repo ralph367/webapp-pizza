@@ -5,10 +5,10 @@ from . import views
 from django.conf.urls import url
 
 router = routers.DefaultRouter()
+# routing all the pizzas viewset functions
 router.register(r'pizzas', viewsets.PizzasViewSet)
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
+
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework_pizzas')),

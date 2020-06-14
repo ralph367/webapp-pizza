@@ -1,3 +1,6 @@
+"""Variables that will be used in the web application
+"""
+
 UNAVAILABE_PIZZA = "Unavailable pizza"
 DOLLAR = "dollar"
 DOLLAR_RATE = 1.13

@@ -14,6 +14,23 @@ class OrdersViewSet(viewsets.ModelViewSet):
     serializer_class = OrdersSerializer
 
     def create(self, request):
+        """Creating an order on request
+
+        Args:
+            request.cart (dict): cart session data
+            request.currency (char): the wanted currency to pay with
+            request.phone (char): phone number of the client
+            request.location (char): location of the client
+            request.addition_info (char): additional information from the client
+            request.name (char): client name
+
+        Returns:
+            HttpResponse: 
+                - 501: Unavailable pizza in the cart
+            
+            HttpResponseRedirect:
+                - 200: redirect to orderlist when order is added
+        """
         cart = request.session.get('cart', [])
         currency = request.data.get('currency')
         total_cost = 0

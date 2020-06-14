@@ -6,6 +6,9 @@ from .models import Pizzas
 
 class PizzasSerializer(serializers.ModelSerializer):
     """Serializer allow complex data to be converted to native Python in order to be rendered as JSON
+
+    return:
+        All the model field
     """
     class Meta:
         model = Pizzas

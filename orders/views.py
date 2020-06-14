@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from .serializers import OrdersSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from pizzawebapp.variables import DELIVERY_CHARGES, DOLLAR_RATE
 
 class HomeView(APIView):
     template_name = 'orders.html'
@@ -21,12 +22,30 @@ class HomeView(APIView):
 
 
 def CartCheckout(request):
+    """Checkout html page to get the required info 
+
+    Args:
+        request.cart [dict]: all cart session items
+
+    Returns:
+        render: rendering to checkout.html page with the following data
+            - 'cart': cart item data
+            - 'delivery_charge': price of the delivery 
+            - 'euro_rate': rate to transform from euro to dollar
+    """
     cart = request.session.get('cart', [])
-    delivery_charge = 3
-    euro_rate = 1.13
-    return render(request, 'checkout.html', {'cart': cart, 'delivery_charge': delivery_charge, 'euro_rate': euro_rate})
+    return render(request, 'checkout.html', {'cart': cart, 'delivery_charge': DELIVERY_CHARGES, 'euro_rate': DOLLAR_RATE})
 
 def OrdersHistory(request):
+    """Getting the order histor of a user
+
+    Args:
+        request.user : who is the user that is requesting 
+
+    Returns:
+        render: rendering to history.html page with the following data
+            - 'data': dict containing the pizza details from each order this user already made
+    """
     pizzas = Pizzas.objects.all()
     data = []
     order_by_active_user = Orders.objects.filter(user=request.user)

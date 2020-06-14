@@ -19,6 +19,20 @@ class HomeView(APIView):
 
 
 def add_cart_session(request):
+    """Creating cart session on pizza add to cart action
+
+    Args:
+        request.id (int): pizza id of the added pizza to the cart
+        request.amout (int): quantity of the added pizza
+
+    Returns:
+        HttpResponse: 
+            - 405: Not allowed if it isn't a post request
+            - 417: Wrong values as arguments, not integers
+            - 406: Negative values for amount arg, can't add -1 pizza
+            - 501: Unavailable pizza, trying to add a pizza in the cart that isn't avaiable in our db
+            - 200: Successfully added to the cart
+    """
     if not request.method == 'POST':
         return HttpResponseNotAllowed(['POST'])
     cart = request.session.get('cart', [])
@@ -30,7 +44,7 @@ def add_cart_session(request):
         return HttpResponse(WRONG_VALUES, status=status.HTTP_417_EXPECTATION_FAILED)
     temp_pizzas = request.session['cart']
     if (pizza_amount < 1):
-        return HttpResponse(NEAGATIVE_AMOUNT, status=406)
+        return HttpResponse(NEAGATIVE_AMOUNT, status=status.HTTP_406_NOT_ACCEPTABLE)
     my_item = next(
         (item for item in temp_pizzas if item['id'] == pizza_id), None)
     if (my_item is None):
@@ -53,6 +67,21 @@ def add_cart_session(request):
 
 
 def update_cart_session(request):
+    """Updating the cart 
+
+    Args:
+        request.id (int): pizza id of the added pizza to the cart
+        request.amout (int): quantity of the added pizza
+
+    Returns:
+        HttpResponse: 
+            - 405: Not allowed if it isn't a post request
+            - 412: Trying to update an empty cart
+            - 417: Wrong values as arguments, not integers
+            - 406: Negative values for amount arg, can't reach -1 pizza
+            - 501: Unavailable pizza, trying to add a pizza in the cart that isn't avaiable in our db
+            - 200: Successfully updated
+    """
     if not request.method == 'POST':
         return HttpResponseNotAllowed(['POST'])
     cart = request.session.get('cart', [])
@@ -80,6 +109,19 @@ def update_cart_session(request):
 
 
 def cart_total_cost(request):
+    """Calculating the total cost of a cart
+
+    Args:
+        request.session (dict): cart session list of added the added items
+
+    Returns:
+        HttpResponse: 
+            - 405: Not allowed if it isn't a get request
+            - 501: Unavailable pizza, trying to calculate the cost wiht a pizza in the cart that isn't avaiable in our db
+
+        JsonResponse: 
+            - 200: total cost of the cart
+    """
     if not request.method == 'GET':
         return HttpResponseNotAllowed(['GET'])
     cart = request.session.get('cart', [])
@@ -96,6 +138,13 @@ def cart_total_cost(request):
 
 
 def clear_cart(request):
+    """Clearing the cart/clearing the session
+
+    Returns:
+        HttpResponse:
+            - 405: Not delete request
+            - 200: cart cleared
+    """
     if not request.method == 'DELETE':
         return HttpResponseNotAllowed(['DELETE'])
     request.session['cart'] = []
@@ -103,6 +152,14 @@ def clear_cart(request):
 
 
 def GetPizzasIDFromSession(request):
+    """Get the pizzas ID from the cart session
+
+    Args:
+        request.cart (dict): cart list of the added items
+
+    Returns:
+        dict: dictonary showing the list of the pizzas id
+    """
     cart = request.session.get('cart', [])
     pizzas = Pizzas.objects.all().values_list('id', flat=True)
     pizzasID = []

@@ -32,7 +32,7 @@ class GetAllPizzasTest(TestCase):
 
 
 class AddToCart(TestCase):
-    """ Testing to GET all carts API """
+    """ Testing to add the pizza to the cart session """
 
     def setUp(self):
         Pizzas.objects.create(name="peperoni", category="ham", price=1)
@@ -89,7 +89,7 @@ class AddToCart(TestCase):
 
 
 class UpdateCart(TestCase):
-    """ Testing to GET all carts API """
+    """ Testing to update the cart amount/pizza/cost """
 
     def setUp(self):
         Pizzas.objects.create(name="peperoni", category="ham", price=1)
@@ -171,7 +171,7 @@ class UpdateCart(TestCase):
 
 
 class CartCost(TestCase):
-    """ Testing to GET all carts API """
+    """ Testing to GET the cart total cost """
 
     def setUp(self):
         Pizzas.objects.create(name="peperoni", price=12.5)

@@ -2,6 +2,17 @@ from django.db import models
 
 # Create your models here.
 class Pizzas(models.Model):
+    """Pizza models that will be saved in mysql 
+
+    Args:
+        id (int): Primary key of the Pizza model
+        name (char): Pizza name 
+        description (char): Pizza components
+        category (char): Not implemented yet
+        price (float): Pizza cost in euro
+        options (char): Not implemenet yet
+        image (text): Image name that will be uploaded to django's media file
+    """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     description = models.CharField(max_length=250, blank=True)

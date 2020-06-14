@@ -33,7 +33,7 @@ class GetAllOrdersTest(TestCase):
 
 
 class PostOrderTest(TestCase):
-    """ Testing to GET all orders API """
+    """ Testing to create a new order object """
 
     def setUp(self):
         Pizzas.objects.create(name="Peperoni", category="Salami", price=10.2)
