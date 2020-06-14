@@ -100,3 +100,13 @@ def clear_cart(request):
         return HttpResponseNotAllowed(['DELETE'])
     request.session['cart'] = []
     return HttpResponse(CLEARED_CART, status=status.HTTP_200_OK)
+
+
+def GetPizzasIDFromSession(request):
+    cart = request.session.get('cart', [])
+    pizzas = Pizzas.objects.all().values_list('id', flat=True)
+    pizzasID = []
+    for pizza in cart:
+        if pizza['id'] in pizzas:
+            pizzasID.append(pizza['id'])
+    return pizzasID

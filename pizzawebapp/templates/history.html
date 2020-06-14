@@ -1,6 +1,6 @@
-{% extends "base.html" %} {% block mainheader %}Your Orders{% endblock mainheader%} {% block content %}
+{% extends "base.html" %} {% block mainheader %}Your Orders history{% endblock mainheader%} {% block content %}
 
-{% for order in session_orders %}
+{% for order in data %}
 <div class="cardcol">
     <div class="card">
         <div class="cardboxheader cardheader">Order {{forloop.counter}}</div>
@@ -8,10 +8,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="title"> Your Order </div>
-                    {%for pizza in order.cart%}
+                    {%for pizza in order.pizzas%}
                     <ul>
                         <li>{{pizza.name}}</li>
-                        <li>Amount : {{pizza.amount}} </li>
+                        <li>Amount : 1 </li>
                         <li>Price: {{pizza.price}}</li>
                     </ul>
                     <hr>
@@ -19,11 +19,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="title"> Personal Information </div>
-                    {%for data in order.data%}
-                    <p><label> Person name : {{data.person_name}}</label></p><br>
-                    <p><label> Location : {{data.location}}</label></p><br>
-                    <p><label> Price : {{data.price}} {{data.currency}}</label></p><br>
-                    {% endfor %}
+                    <p><label> Person name : {{order.person_name}}</label></p><br>
+                    <p><label> Location : {{order.location}}</label></p><br>
+                    <p><label> Price : {{order.price}} {{order.currency}}</label></p><br>
                 </div>
             </div>
         </div>

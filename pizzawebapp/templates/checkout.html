@@ -47,8 +47,7 @@
 
 </div>
 
-{% endblock content %} {% block script %} {% load static %}
-<script src="{% static 'js/jquery.js'%}"></script>
+{% endblock content %} {% block script %} 
 <script>
     var csrftoken = '{{ csrf_token }}';
     $(document).ready(function() {

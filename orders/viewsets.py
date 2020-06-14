@@ -4,6 +4,7 @@ from .serializers import OrdersSerializer
 from rest_framework import status
 from .models import Orders
 from pizzas.models import Pizzas
+from pizzas.views import GetPizzasIDFromSession
 from django.http import HttpResponse, HttpResponseRedirect
 from pizzawebapp.variables import UNAVAILABE_PIZZA, DOLLAR, DOLLAR_RATE, DELIVERY_CHARGES
 
@@ -16,6 +17,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
         cart = request.session.get('cart', [])
         currency = request.data.get('currency')
         total_cost = 0
+        pizzas_id_in_cart = GetPizzasIDFromSession(request)
         for pizza in cart:
             try:
                 current_pizza = Pizzas.objects.get(id=pizza['id'])
@@ -32,7 +34,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
             'phone': request.data.get('phone'),
             'addition_info': request.data.get('addition_info'),
             'person_name': request.data.get('name'),
-            'pizza_list': str(cart),
+            'pizza_list': pizzas_id_in_cart,
         }
         serializer = OrdersSerializer(data=data)
         
