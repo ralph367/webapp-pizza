@@ -17,8 +17,8 @@ Here is a list of the application functionalities and features to be done:
 - [x] Total price in the checkout page including delivery charge and currency selection
 - [x] Remove item from the cart
 - [x] Clear cart
-- [ ] Responsive web page
-- [ ] Admin rights to add/remove pizza
+- [x] Responsive web page ( not fully implemented )
+- [x] Admin rights to add/remove pizza
 - [x] Checking your order
 - [x] Design 
 - [x] User order history
@@ -53,3 +53,8 @@ I tried using unit tests for every function in this task but due to the limitati
 ## Coding 
 
 For more details about the code and each function check the corresponding file, a docstring for each function is added for some explanations
+
+## Admin 
+
+Added only the ability to create a new pizza object from the web application, in order to edit/remove you need to access the server's database or by using django's rest framework.
+If you are an admin and logged you will see a new button in the menu to add a pizza
