@@ -24,6 +24,8 @@ Here is a list of the application functionalities and features to be done:
 
 ## Models
 
+![modeldiagram](media/images/modeldiagram.png)
+
 ## Cart
 
 At the moment, the cart is being saved over the client's session
