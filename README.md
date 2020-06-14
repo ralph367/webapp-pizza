@@ -49,3 +49,7 @@ Django's User system is being used in here, so there isn't any user login/logout
 ## Test-driven Development 
 
 I tried using unit tests for every function in this task but due to the limitation of time I didn't implement and tried all the available and possible cases for each function so maybe I missed some of the special cases. The idea behind using TDD was just to make sure after each function update and changes the system is still working without any error/bug 
+
+## Coding 
+
+For more details about the code and each function check the corresponding file, a docstring for each function is added for some explanations
