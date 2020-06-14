@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block mainheader %}Adding Pizza to the menu{% endblock mainheader%} {% block content %}
+
+{% load rest_framework %}
+<div class="container">
+    <div class="card col-md-12">
+        <div class="cardboxheader cardheader">Add the pizza model fields</div>
+        <div class="cardbody">
+            <form action="api/pizzas/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% render_form serializer %}
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

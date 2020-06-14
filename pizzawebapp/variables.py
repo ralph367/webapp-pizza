@@ -8,5 +8,6 @@ DELIVERY_CHARGES = 3
 WRONG_VALUES = "Wrong values"
 NEAGATIVE_AMOUNT = "Negative amount"
 SUCCESSFULLY_ADDED = "Pizza successfully added"
+SUCCESSFULLY_UPDATED = "Pizza successfully updated"
 EMPTY_CART = "Cart is empty you can't udpate"
 CLEARED_CART = "Cleared the cart"

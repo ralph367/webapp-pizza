@@ -2,8 +2,10 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Pizzas
+from .serializers import PizzasSerializer
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
-from pizzawebapp.variables import WRONG_VALUES, NEAGATIVE_AMOUNT, UNAVAILABE_PIZZA, SUCCESSFULLY_ADDED, EMPTY_CART, CLEARED_CART
+from django.contrib.admin.views.decorators import staff_member_required
+from pizzawebapp.variables import WRONG_VALUES, NEAGATIVE_AMOUNT, UNAVAILABE_PIZZA, SUCCESSFULLY_ADDED, EMPTY_CART, CLEARED_CART, SUCCESSFULLY_UPDATED
 # Create your views here.
 
 
@@ -61,9 +63,9 @@ def add_cart_session(request):
         temp_pizzas.remove(my_item)
         my_item['amount'] += pizza_amount
         temp_pizzas.append(my_item)
-
+    pizza = Pizzas.objects.get(id=pizza_id)
     request.session['cart'] = temp_pizzas
-    return HttpResponse(SUCCESSFULLY_ADDED, status=status.HTTP_200_OK)
+    return HttpResponse(str(pizza.name)+" "+SUCCESSFULLY_ADDED, status=status.HTTP_200_OK)
 
 
 def update_cart_session(request):
@@ -103,9 +105,9 @@ def update_cart_session(request):
         temp_pizzas.remove(my_item)
         my_item['amount'] = pizza_amount
         temp_pizzas.append(my_item)
-
+    pizza = Pizzas.objects.get(id=pizza_id)
     request.session['cart'] = temp_pizzas
-    return HttpResponse(SUCCESSFULLY_ADDED, status=status.HTTP_200_OK)
+    return HttpResponse(str(pizza.name)+" "+SUCCESSFULLY_UPDATED, status=status.HTTP_200_OK)
 
 
 def cart_total_cost(request):
@@ -167,3 +169,11 @@ def GetPizzasIDFromSession(request):
         if pizza['id'] in pizzas:
             pizzasID.append(pizza['id'])
     return pizzasID
+
+@staff_member_required
+def AddPizza( request):
+    data= {}
+    serializer = PizzasSerializer(data=data)
+    if not serializer.is_valid():
+        return render(request,'admin.html' ,{'serializer': serializer})
+    return render(request,'admin.html', {'serializer': serializer})

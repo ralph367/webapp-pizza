@@ -20,3 +20,6 @@ class Pizzas(models.Model):
     price = models.FloatField(blank=True)
     options = models.CharField(max_length=250, blank=True)
     image = models.ImageField(upload_to='images/', blank=True)
+
+    def get_name(self):
+        return self.name

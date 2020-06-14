@@ -15,10 +15,12 @@
                         <div class="col-md-6">
                             <label><strong> Price: {{pizza.price}} € </strong></label></br>
                             <label>Quantity: </label>
-                            <input class="amount" type="number" id="{{pizza.id}}" value="1" min="1" onKeyDown="return false">
+                            <input class="amount" type="number" id="{{pizza.id}}" value="1" min="1"
+                                onKeyDown="return false">
                         </div>
                         <div class="col-md-6">
-                            <button class="buttonstyle" onclick="addToCart('{{ pizza.id}}')" value="">Add To Cart</button>
+                            <button class="buttonstyle" onclick="addToCart('{{ pizza.id}}')" value="">Add To
+                                Cart</button>
                         </div>
                     </div>
                 </div>
@@ -28,7 +30,7 @@
     {% endfor %}
 </div>
 
-{% endblock content %} {% block script %} 
+{% endblock content %} {% block script %}
 <script>
     var csrftoken = '{{ csrf_token }}';
 
@@ -46,11 +48,22 @@
             headers: {
                 "X-CSRFToken": csrftoken
             },
-            success: function(data) {
-                console.log(data)
-                $('#messages').text(data);
+            success: function (data) {
+                
+                console.log($('#messages').html())
+                console.log(data.concat("(" + (counter) + ")"))
+                if ($('#messages').html().localeCompare(data.concat("(" + (counter) + ")")) == 0) {
+                    counter++;
+                    $('#messages').text(data + "(" + counter + ")");
+                    console.log("asdasd")
+                }
+                else {
+                    console.log("data")
+                    counter = 1
+                    $('#messages').text(data + "(" + counter + ")");
+                }
             },
-            error: function(error) {
+            error: function (error) {
                 console.log(error)
             }
         });
