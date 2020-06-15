@@ -27,6 +27,8 @@ To sum up the task:
 Any client can access the web application, he can add any pizza to the cart which will be saved in the session then he can checkout and buy the order. This client can as well remove item from the cart, clear the cart, increment/decrement the pizza's quantity in the cart, in the menu and in the checkout page. The price will be instantly updated, in the cart and in the checkout page. In the checkout page the client can choose the payment currency and it will be calculated including the delivery charges. Once the client buys the order, he can still check the session's order.
 For a logged in user, he got same features as a guest user but in addition to the above a user can always check his order history since it is saved in the database. 
 
+![diagram](media/images/diagram.png)
+
 ## Models
 
 ![modeldiagram](media/images/modeldiagram.png)
@@ -46,6 +48,11 @@ The order will always be saved in the database and the client's session, but the
 
 Django's User system is being used in here, so there isn't any user login/logout/register script. Just few html pages to render the default form of Django. 
 
+### Admin 
+
+Added only the ability to create a new pizza object from the web application, in order to edit/remove you need to access the server's database or by using django's rest framework.
+If you are an admin and logged you will see a new button in the menu to add a pizza
+
 ## Test-driven Development 
 
 I tried using unit tests for every function in this task but due to the limitation of time I didn't implement and tried all the available and possible cases for each function so maybe I missed some of the special cases. The idea behind using TDD was just to make sure after each function update and changes the system is still working without any error/bug 
@@ -54,7 +61,4 @@ I tried using unit tests for every function in this task but due to the limitati
 
 For more details about the code and each function check the corresponding file, a docstring for each function is added for some explanations
 
-## Admin 
 
-Added only the ability to create a new pizza object from the web application, in order to edit/remove you need to access the server's database or by using django's rest framework.
-If you are an admin and logged you will see a new button in the menu to add a pizza
